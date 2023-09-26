@@ -3,6 +3,8 @@ project(fighting_game)
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(CMAKE_PREFIX_PATH "./SFML" ${CMAKE_PREFIX_PATH})
+
 add_executable(fighting_game
 src/main.cpp
 )
