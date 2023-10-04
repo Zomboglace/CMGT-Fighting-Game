@@ -25,8 +25,8 @@ namespace fg
             void setClick(bool click, std::string filepath = "", std::function<void()> lambda = nullptr);
             void setHover(bool hover, std::string filepath = "", std::function<void()> lambda = nullptr);
             void setText(bool text, std::string filepath = "", std::string textString = "", int size = 0, sf::Color color = sf::Color::White, float x = 0, float y = 0);
-            void setSoundClick(bool sound, std::string filepath = "");
-            void setSoundHover(bool sound, std::string filepath = "");
+            void setSoundClick(bool sound, std::string filepath = "", float volume = 100.0f);
+            void setSoundHover(bool sound, std::string filepath = "", float volume = 100.0f);
 
             void click(sf::Event &event);
             void hover(sf::Event &event);

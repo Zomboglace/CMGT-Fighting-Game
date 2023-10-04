@@ -48,18 +48,20 @@ void fg::ButtonSprite::setText(bool text, std::string filepath, std::string text
     }
 }
 
-void fg::ButtonSprite::setSoundClick(bool sound, std::string filepath)
+void fg::ButtonSprite::setSoundClick(bool sound, std::string filepath, float volume)
 {
     if (sound) {
         _soundClick.initialize(filepath);
+        _soundClick.setVolume(volume);
         _clickSound = true;
     }
 }
 
-void fg::ButtonSprite::setSoundHover(bool sound, std::string filepath)
+void fg::ButtonSprite::setSoundHover(bool sound, std::string filepath, float volume)
 {
     if (sound) {
         _soundHover.initialize(filepath);
+        _soundHover.setVolume(volume);
         _hoverSound = true;
     }
 }
