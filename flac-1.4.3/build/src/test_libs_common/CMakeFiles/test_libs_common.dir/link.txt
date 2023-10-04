@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtest_libs_common.a CMakeFiles/test_libs_common.dir/file_utils_flac.c.o CMakeFiles/test_libs_common.dir/metadata_utils.c.o
+/usr/bin/ranlib libtest_libs_common.a

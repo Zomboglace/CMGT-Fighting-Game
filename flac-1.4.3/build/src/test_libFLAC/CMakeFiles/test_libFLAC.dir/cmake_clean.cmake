@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/bitreader.c.o"
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/bitreader.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/bitwriter.c.o"
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/bitwriter.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/crc.c.o"
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/crc.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/md5.c.o"
+  "CMakeFiles/test_libFLAC.dir/__/libFLAC/md5.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/bitreader.c.o"
+  "CMakeFiles/test_libFLAC.dir/bitreader.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/bitwriter.c.o"
+  "CMakeFiles/test_libFLAC.dir/bitwriter.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/crc.c.o"
+  "CMakeFiles/test_libFLAC.dir/crc.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/decoders.c.o"
+  "CMakeFiles/test_libFLAC.dir/decoders.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/encoders.c.o"
+  "CMakeFiles/test_libFLAC.dir/encoders.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/endswap.c.o"
+  "CMakeFiles/test_libFLAC.dir/endswap.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/format.c.o"
+  "CMakeFiles/test_libFLAC.dir/format.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/main.c.o"
+  "CMakeFiles/test_libFLAC.dir/main.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/md5.c.o"
+  "CMakeFiles/test_libFLAC.dir/md5.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/metadata.c.o"
+  "CMakeFiles/test_libFLAC.dir/metadata.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/metadata_manip.c.o"
+  "CMakeFiles/test_libFLAC.dir/metadata_manip.c.o.d"
+  "CMakeFiles/test_libFLAC.dir/metadata_object.c.o"
+  "CMakeFiles/test_libFLAC.dir/metadata_object.c.o.d"
+  "test_libFLAC"
+  "test_libFLAC.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/test_libFLAC.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
