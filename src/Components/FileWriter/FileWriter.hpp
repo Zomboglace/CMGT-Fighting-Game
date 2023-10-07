@@ -42,11 +42,14 @@ namespace fg
             template <typename T>
             T getData(std::string dataName)
             {
+                if (_data.find(dataName) == _data.end()) {
+                    throw std::invalid_argument("Data not found: " + dataName);
+                }
                 std::istringstream ss(_data[dataName]);
                 T data;
 
                 if (!(ss >> data)) {
-                    throw std::invalid_argument("Invalid input: " + _data[dataName]);
+                    throw std::invalid_argument("Invalid input: " + dataName);
                 }
                 return data;
             }
