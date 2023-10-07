@@ -11,6 +11,8 @@ fg::Game::Game()
     : _window("Game", 1280, 800, 32),
     _scenes(_window.getRenderWindow())
 {
+    _window.clear();
+    _window.display();
     _scenes.addScene<MainMenuScene>("MainMenuScene");
     _scenes.addScene<GameScene>("GameScene");
     _scenes.switchToScene("MainMenuScene");
