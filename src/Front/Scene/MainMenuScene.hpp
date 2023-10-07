@@ -15,6 +15,7 @@
 #include "RectSprite.hpp"
 #include "Text.hpp"
 #include "Music.hpp"
+#include "FileWriter.hpp"
 
 namespace fg
 {
@@ -40,6 +41,7 @@ namespace fg
             fg::AnimatedSprite _animatedBackground;
             fg::Music _music;
             MainMenuSceneState _state;
+            fg::FileWriter _fileWriter;
 
             fg::ButtonSprite _buttonStart;
             fg::ButtonSprite _buttonOption;
