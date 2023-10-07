@@ -21,6 +21,7 @@ void fg::Music::initialize(std::string filepath, int volume, float timeToMaxVolu
     if (!_music.openFromFile(filepath))
         std::cout << "Error loading music" << std::endl;
     _timeToMaxVolume = timeToMaxVolume;
+    _volume = volume;
     _music.setVolume(_currentVolume);
 }
 
