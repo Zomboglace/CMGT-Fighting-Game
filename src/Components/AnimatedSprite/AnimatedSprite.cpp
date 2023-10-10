@@ -25,7 +25,8 @@ void fg::AnimatedSprite::update()
     if (_timeSinceLastUpdate >= _timePerFrame) {
         _currentFrame = (_currentFrame + 1) % _numberOfFrames;
         _sprite.setTextureRect(sf::IntRect(0, _currentFrame * _sizeY, _sizeX, _sizeY));
-        _timeSinceLastUpdate -= _timePerFrame;
+        while (_timeSinceLastUpdate >= _timePerFrame)
+            _timeSinceLastUpdate -= _timePerFrame;
     }
 }
 
