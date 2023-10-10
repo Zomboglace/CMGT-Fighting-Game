@@ -10,8 +10,8 @@
 fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
     : Scene(sceneManager),
     _state(MainMenuSceneState::Start),
-    _musicVolume(100),
-    _soundVolume(100)
+    _musicLevel(0),
+    _soundLevel(0)
 {
     int width = _sceneManager.getWindow().getSize().x;
     int height = _sceneManager.getWindow().getSize().y;
@@ -19,8 +19,13 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
     // Loading option
     try {
         if (_fileWriter.load("option.cmgt")) {
-            _musicVolume = _fileWriter.getData<float>("music_volume");
-            _soundVolume = _fileWriter.getData<float>("sound_volume");
+            _musicLevel = _fileWriter.getData<float>("music_level");
+            _soundLevel = _fileWriter.getData<float>("sound_level");
+
+            if (_musicLevel < 0 || _musicLevel > 7)
+                _musicLevel = 0;
+            if (_soundLevel < 0 || _soundLevel > 7)
+                _soundLevel = 0;
         }
     } catch (const std::exception &e) {
         std::cout << e.what() << std::endl;
@@ -33,7 +38,7 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
     _animatedBackground.scale(2.16, 2.16);
 
     // Initialize music
-    _music.initialize("assets/main-menu-music.ogg", _musicVolume, 10.0f);
+    _music.initialize("assets/main-menu-music.ogg", 100, 10.0f);
     _music.setLoop(true);
 
     // Initialize start
@@ -45,8 +50,8 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
     });
     _buttonStart.setHover(true, "assets/button-hover.png");
     _buttonStart.setText(true, "assets/atwriter.ttf", "Start", 48, sf::Color::White, 0, -12);
-    _buttonStart.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
-    _buttonStart.setSoundHover(true, "assets/button-hover.ogg", _soundVolume);
+    _buttonStart.setSoundClick(true, "assets/button-click.ogg");
+    _buttonStart.setSoundHover(true, "assets/button-hover.ogg");
     // Option button
     _buttonOption.initialize("assets/button.png");
     _buttonOption.setPosition(50, 350);
@@ -55,8 +60,8 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
     });
     _buttonOption.setHover(true, "assets/button-hover.png");
     _buttonOption.setText(true, "assets/atwriter.ttf", "Option", 48, sf::Color::White, 0, -12);
-    _buttonOption.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
-    _buttonOption.setSoundHover(true, "assets/button-hover.ogg", _soundVolume);
+    _buttonOption.setSoundClick(true, "assets/button-click.ogg");
+    _buttonOption.setSoundHover(true, "assets/button-hover.ogg");
     // Quit button
     _buttonQuit.initialize("assets/button.png");
     _buttonQuit.setPosition(50, 500);
@@ -65,8 +70,8 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
     });
     _buttonQuit.setHover(true, "assets/button-hover.png");
     _buttonQuit.setText(true, "assets/atwriter.ttf", "Quit", 48, sf::Color::White, 0, -12);
-    _buttonQuit.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
-    _buttonQuit.setSoundHover(true, "assets/button-hover.ogg", _soundVolume);
+    _buttonQuit.setSoundClick(true, "assets/button-click.ogg");
+    _buttonQuit.setSoundHover(true, "assets/button-hover.ogg");
 
 
     // Initialize option
@@ -79,66 +84,68 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
     _buttonOptionBack.setPosition(50, 500);
     _buttonOptionBack.setClick(true, "assets/button-hover.png", [&](){
         _state = MainMenuSceneState::Start;
-        _fileWriter.addData("music_volume", _musicVolume);
-        _fileWriter.addData("sound_volume", _soundVolume);
+        _fileWriter.addData("music_level", _rectMusicLevel.getCurrentFrame());
+        _fileWriter.addData("sound_level", _rectSoundLevel.getCurrentFrame());
         _fileWriter.save("option.cmgt");
     });
     _buttonOptionBack.setHover(true, "assets/button-hover.png");
     _buttonOptionBack.setText(true, "assets/atwriter.ttf", "Done", 48, sf::Color::White, 0, -12);
-    _buttonOptionBack.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
-    _buttonOptionBack.setSoundHover(true, "assets/button-hover.ogg", _soundVolume);
+    _buttonOptionBack.setSoundClick(true, "assets/button-click.ogg");
+    _buttonOptionBack.setSoundHover(true, "assets/button-hover.ogg");
     
     // Music down button
     _buttonOptionMusicDown.initialize("assets/arrow-left.png");
     _buttonOptionMusicDown.setPosition(130, 220);
     _buttonOptionMusicDown.setClick(true, "assets/arrow-left.png", [&](){
-        _musicLevel.changeFrame(_musicLevel.getCurrentFrame() + 1);
-        _musicVolume = 100 / 7 * (7 - _musicLevel.getCurrentFrame());
-        _music.setVolume(_musicVolume);
+        _rectMusicLevel.changeFrame(_rectMusicLevel.getCurrentFrame() + 1);
+        _musicLevel = _rectMusicLevel.getCurrentFrame();
+        setMusicVolume();
     });
     _buttonOptionMusicDown.scale(6, 6);
-    _buttonOptionMusicDown.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
+    _buttonOptionMusicDown.setSoundClick(true, "assets/button-click.ogg");
 
     // Music up button
     _buttonOptionMusicUp.initialize("assets/arrow-right.png");
     _buttonOptionMusicUp.setPosition(400, 220);
     _buttonOptionMusicUp.setClick(true, "assets/arrow-right.png", [&](){
-        _musicLevel.changeFrame(_musicLevel.getCurrentFrame() - 1);
-        _musicVolume = 100 / 7 * (7 - _musicLevel.getCurrentFrame());
-        _music.setVolume(_musicVolume);
+        _rectMusicLevel.changeFrame(_rectMusicLevel.getCurrentFrame() - 1);
+        _musicLevel = _rectMusicLevel.getCurrentFrame();
+        setMusicVolume();
     });
     _buttonOptionMusicUp.scale(6, 6);
-    _buttonOptionMusicUp.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
+    _buttonOptionMusicUp.setSoundClick(true, "assets/button-click.ogg");
     
 
     // Sound down button
     _buttonOptionSoundDown.initialize("assets/arrow-left.png");
     _buttonOptionSoundDown.setPosition(130, 370);
     _buttonOptionSoundDown.setClick(true, "assets/arrow-left.png", [&](){
-        _soundLevel.changeFrame(_soundLevel.getCurrentFrame() + 1);
-        _soundVolume = 100 / 7 * (7 - _soundLevel.getCurrentFrame());
-        setVolume(_soundVolume);
+        _rectSoundLevel.changeFrame(_rectSoundLevel.getCurrentFrame() + 1);
+        _soundLevel = _rectSoundLevel.getCurrentFrame();
+        setSoundVolume();
     });
     _buttonOptionSoundDown.scale(6, 6);
-    _buttonOptionSoundDown.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
+    _buttonOptionSoundDown.setSoundClick(true, "assets/button-click.ogg");
     // Sound up button
     _buttonOptionSoundUp.initialize("assets/arrow-right.png");
     _buttonOptionSoundUp.setPosition(400, 370);
     _buttonOptionSoundUp.setClick(true, "assets/arrow-right.png", [&](){
-        _soundLevel.changeFrame(_soundLevel.getCurrentFrame() - 1);
-        _soundVolume = 100 / 7 * (7 - _soundLevel.getCurrentFrame());
-        setVolume(_soundVolume);
+        _rectSoundLevel.changeFrame(_rectSoundLevel.getCurrentFrame() - 1);
+        _soundLevel = _rectSoundLevel.getCurrentFrame();
+        setSoundVolume();
     });
     _buttonOptionSoundUp.scale(6, 6);
-    _buttonOptionSoundUp.setSoundClick(true, "assets/button-click.ogg", _soundVolume);
+    _buttonOptionSoundUp.setSoundClick(true, "assets/button-click.ogg");
     // Music level sprite
-    _musicLevel.initialize("assets/volume.png", 37, 14, 8, 0, false);
-    _musicLevel.setPosition(220, 225);
-    _musicLevel.scale(4, 4);
+    _rectMusicLevel.initialize("assets/volume.png", 37, 14, 8, _musicLevel, false);
+    _rectMusicLevel.setPosition(220, 225);
+    _rectMusicLevel.scale(4, 4);
     // Sound level sprite
-    _soundLevel.initialize("assets/volume.png", 37, 14, 8, 0, false);
-    _soundLevel.setPosition(220, 375);
-    _soundLevel.scale(4, 4);
+    _rectSoundLevel.initialize("assets/volume.png", 37, 14, 8, _soundLevel, false);
+    _rectSoundLevel.setPosition(220, 375);
+    _rectSoundLevel.scale(4, 4);
+
+    setVolume();
 }
 
 void fg::MainMenuScene::event(sf::RenderWindow &window, sf::Event &event)
@@ -191,19 +198,32 @@ void fg::MainMenuScene::draw(sf::RenderWindow &window)
         window.draw(_buttonOptionMusicUp.getSprite());
         window.draw(_buttonOptionSoundDown.getSprite());
         window.draw(_buttonOptionSoundUp.getSprite());
-        window.draw(_musicLevel.getSprite());
-        window.draw(_soundLevel.getSprite());
+        window.draw(_rectMusicLevel.getSprite());
+        window.draw(_rectSoundLevel.getSprite());
     }
 }
 
-void fg::MainMenuScene::setVolume(float volume)
+void fg::MainMenuScene::setVolume()
 {
-    _buttonStart.setVolume(volume);
-    _buttonOption.setVolume(volume);
-    _buttonQuit.setVolume(volume);
-    _buttonOptionBack.setVolume(volume);
-    _buttonOptionMusicDown.setVolume(volume);
-    _buttonOptionMusicUp.setVolume(volume);
-    _buttonOptionSoundDown.setVolume(volume);
-    _buttonOptionSoundUp.setVolume(volume);
+    setSoundVolume();
+    setMusicVolume();
+}
+
+void fg::MainMenuScene::setSoundVolume()
+{
+    float soundVolume = 98 / 7 * (7 - _soundLevel);
+    _buttonStart.setVolume(soundVolume);
+    _buttonOption.setVolume(soundVolume);
+    _buttonQuit.setVolume(soundVolume);
+    _buttonOptionBack.setVolume(soundVolume);
+    _buttonOptionMusicDown.setVolume(soundVolume);
+    _buttonOptionMusicUp.setVolume(soundVolume);
+    _buttonOptionSoundDown.setVolume(soundVolume);
+    _buttonOptionSoundUp.setVolume(soundVolume);
+}
+
+void fg::MainMenuScene::setMusicVolume()
+{
+    float musicVolume = 98 / 7 * (7 - _musicLevel);
+    _music.setVolume(musicVolume);
 }

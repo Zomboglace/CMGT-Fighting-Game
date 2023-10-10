@@ -22,7 +22,8 @@ namespace fg
     enum class MainMenuSceneState
     {
         Start,
-        Option
+        Option,
+        Play
     };
 
     class MainMenuScene : public Scene
@@ -35,7 +36,9 @@ namespace fg
             void update(sf::RenderWindow &window) override;
             void draw(sf::RenderWindow &window) override;
 
-            void setVolume(float volume);
+            void setVolume();
+            void setSoundVolume();
+            void setMusicVolume();
 
         private:
             fg::AnimatedSprite _animatedBackground;
@@ -47,8 +50,8 @@ namespace fg
             fg::ButtonSprite _buttonOption;
             fg::ButtonSprite _buttonQuit;
 
-            float _musicVolume;
-            float _soundVolume;
+            int _musicLevel;
+            int _soundLevel;
             fg::Text _textMusic;
             fg::Text _textSound;
             fg::ButtonSprite _buttonOptionBack;
@@ -56,7 +59,7 @@ namespace fg
             fg::ButtonSprite _buttonOptionMusicUp;
             fg::ButtonSprite _buttonOptionSoundDown;
             fg::ButtonSprite _buttonOptionSoundUp;
-            fg::RectSprite _musicLevel;
-            fg::RectSprite _soundLevel;
+            fg::RectSprite _rectMusicLevel;
+            fg::RectSprite _rectSoundLevel;
     };
 }
