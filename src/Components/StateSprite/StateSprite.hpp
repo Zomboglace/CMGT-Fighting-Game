@@ -25,6 +25,9 @@ namespace fg
             void addState(std::string filepath, std::string stateName);
             void changeState(std::string stateName);
 
+            void setPosition(float x, float y);
+            void scale(float x, float y);
+
             sf::Texture &getTexture(std::string stateName);
             std::string getState() const;
             sf::Sprite &getSprite();

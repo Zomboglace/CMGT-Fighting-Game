@@ -33,6 +33,16 @@ void fg::StateSprite::changeState(std::string stateName)
     _sprite.setTexture(_textures[_state]);
 }
 
+void fg::StateSprite::setPosition(float x, float y)
+{
+    _sprite.setPosition(x, y);
+}
+
+void fg::StateSprite::scale(float x, float y)
+{
+    _sprite.scale(x, y);
+}
+
 std::string fg::StateSprite::getState() const
 {
     return _state;
