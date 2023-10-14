@@ -18,7 +18,7 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
 
     // Loading option
     try {
-        if (_fileWriter.load("option.cmgt")) {
+        if (_fileWriter.load("save/option.cmgt")) {
             _musicLevel = _fileWriter.getData<float>("music_level");
             _soundLevel = _fileWriter.getData<float>("sound_level");
 
@@ -86,7 +86,7 @@ fg::MainMenuScene::MainMenuScene(SceneManager &sceneManager)
         _state = MainMenuSceneState::Start;
         _fileWriter.addData("music_level", _rectMusicLevel.getCurrentFrame());
         _fileWriter.addData("sound_level", _rectSoundLevel.getCurrentFrame());
-        _fileWriter.save("option.cmgt");
+        _fileWriter.save("save/option.cmgt");
     });
     _buttonOptionBack.setHover(true, "assets/button-hover.png");
     _buttonOptionBack.setText(true, "assets/atwriter.ttf", "Done", 48, sf::Color::White, 0, -12);
