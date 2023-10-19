@@ -9,9 +9,8 @@
 
 void fg::StateSprite::initialize(std::string filepath, std::string initialStateName)
 {
-    _textures[initialStateName].loadFromFile(filepath);
-    _state = initialStateName;
-    _sprite.setTexture(_textures[_state]);
+    addState(filepath, initialStateName);
+    changeState(initialStateName);
 }
 
 void fg::StateSprite::addState(std::string filepath, std::string stateName)
@@ -20,7 +19,10 @@ void fg::StateSprite::addState(std::string filepath, std::string stateName)
         std::cerr << "StateSprite::addState: state " << stateName << " already exists" << std::endl;
         return;
     }
-    _textures[stateName].loadFromFile(filepath);
+    sf::Texture texture;
+    texture.loadFromFile(filepath);
+    _textures[stateName] = std::make_shared<sf::Texture>(texture);
+    // _textures[stateName].loadFromFile(filepath);
 }
 
 void fg::StateSprite::changeState(std::string stateName)
@@ -30,7 +32,8 @@ void fg::StateSprite::changeState(std::string stateName)
         return;
     }
     _state = stateName;
-    _sprite.setTexture(_textures[_state]);
+    _sprite.setTexture(*_textures[_state]);
+    _sprite.setTextureRect(sf::IntRect(0, 0, _textures[_state]->getSize().x, _textures[_state]->getSize().y));
 }
 
 void fg::StateSprite::setPosition(float x, float y)

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 namespace fg
@@ -28,13 +29,13 @@ namespace fg
             void setPosition(float x, float y);
             void scale(float x, float y);
 
-            sf::Texture &getTexture(std::string stateName);
+            std::shared_ptr<sf::Texture> getTexture(std::string stateName);
             std::string getState() const;
             sf::Sprite &getSprite();
 
 
         private:
-            std::map<std::string, sf::Texture> _textures;
+            std::map<std::string, std::shared_ptr<sf::Texture>> _textures;
             std::string _state;
             sf::Sprite _sprite;
     };
