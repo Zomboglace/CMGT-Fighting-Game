@@ -13,6 +13,12 @@
 #include <sstream>
 #include <unordered_map>
 
+#define BLUE "\033[0;34m"
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define RESET "\033[0m"
+
 namespace fg
 {
     class FileWriter
@@ -38,6 +44,9 @@ namespace fg
 
             bool load();
             bool load(std::string filepath);
+
+            void deleteFile(bool debug = false);
+            void deleteFile(std::string filepath);
 
             template <typename T>
             T getData(std::string dataName)

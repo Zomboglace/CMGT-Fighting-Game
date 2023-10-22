@@ -35,7 +35,6 @@ void fg::FileWriter::save()
     }
     for (const auto &data : _data)
     {
-        std::cout << data.first << ":" << data.second << std::endl;
         file << data.first << ":" << data.second << std::endl;
     }
     file.close();
@@ -80,9 +79,7 @@ void fg::FileWriter::addData(std::string dataName, bool data)
 bool fg::FileWriter::load()
 {
     std::ifstream file(_filepath);
-    if (!file.is_open())
-    {
-        std::cout << "Error opening file: " << _filepath << std::endl;
+    if (!file.is_open()) {
         return false;
     }
     std::string line;
@@ -93,7 +90,6 @@ bool fg::FileWriter::load()
         _data[dataName] = data;
     }
     file.close();
-    printData();
     return true;
 }
 
@@ -101,4 +97,19 @@ bool fg::FileWriter::load(std::string filepath)
 {
     _filepath = filepath;
     return load();
+}
+
+void fg::FileWriter::deleteFile(bool debug)
+{
+    if (remove(_filepath.c_str()) != 0)
+    {
+        if (debug)
+            std::cout << RED << "Error deleting file: " << RESET << _filepath << std::endl;
+    }
+}
+
+void fg::FileWriter::deleteFile(std::string filepath)
+{
+    _filepath = filepath;
+    deleteFile();
 }
