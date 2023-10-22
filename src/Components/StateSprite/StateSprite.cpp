@@ -22,7 +22,6 @@ void fg::StateSprite::addState(std::string filepath, std::string stateName)
     sf::Texture texture;
     texture.loadFromFile(filepath);
     _textures[stateName] = std::make_shared<sf::Texture>(texture);
-    // _textures[stateName].loadFromFile(filepath);
 }
 
 void fg::StateSprite::changeState(std::string stateName)
@@ -34,6 +33,8 @@ void fg::StateSprite::changeState(std::string stateName)
     _state = stateName;
     _sprite.setTexture(*_textures[_state]);
     _sprite.setTextureRect(sf::IntRect(0, 0, _textures[_state]->getSize().x, _textures[_state]->getSize().y));
+    // Origin is at bottom left corner
+    _sprite.setOrigin(0, _textures[_state]->getSize().y);
 }
 
 void fg::StateSprite::setPosition(float x, float y)
