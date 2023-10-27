@@ -17,13 +17,16 @@
 #include "Music.hpp"
 #include "FileWriter.hpp"
 
+#include "GameScene.hpp"
+
 namespace fg
 {
     enum class MainMenuSceneState
     {
         Start,
         Option,
-        Play
+        Play,
+        NewGame
     };
 
     class MainMenuScene : public Scene
@@ -31,6 +34,8 @@ namespace fg
         public:
             MainMenuScene(SceneManager &sceneManager);
             ~MainMenuScene() = default;
+
+            void initialize();
 
             void event(sf::RenderWindow &window, sf::Event &event) override;
             void update(sf::RenderWindow &window) override;
@@ -40,16 +45,20 @@ namespace fg
             void setSoundVolume();
             void setMusicVolume();
 
+            void createNewGame(int difficulty);
+            void deleteSave(int save);
+
         private:
             fg::AnimatedSprite _animatedBackground;
             fg::Music _music;
             MainMenuSceneState _state;
-            fg::FileWriter _fileWriter;
 
+            // Start
             fg::ButtonSprite _buttonStart;
             fg::ButtonSprite _buttonOption;
             fg::ButtonSprite _buttonQuit;
 
+            // Option
             int _musicLevel;
             int _soundLevel;
             fg::Text _textMusic;
@@ -61,5 +70,25 @@ namespace fg
             fg::ButtonSprite _buttonOptionSoundUp;
             fg::RectSprite _rectMusicLevel;
             fg::RectSprite _rectSoundLevel;
+
+            // Play
+            bool _save1;
+            bool _save2;
+            bool _save3;
+            fg::ButtonSprite _buttonSave1;
+            fg::ButtonSprite _buttonSave2;
+            fg::ButtonSprite _buttonSave3;
+            fg::ButtonSprite _buttonDelete1;
+            fg::ButtonSprite _buttonDelete2;
+            fg::ButtonSprite _buttonDelete3;
+            fg::ButtonSprite _buttonPlayBack;
+
+            // NewGame
+            int _save;
+            fg::ButtonSprite _buttonNewGameEasy;
+            fg::ButtonSprite _buttonNewGameNormal;
+            fg::ButtonSprite _buttonNewGameHard;
+            fg::ButtonSprite _buttonNewGameInsane;
+            fg::ButtonSprite _buttonNewGameBack;
     };
 }
