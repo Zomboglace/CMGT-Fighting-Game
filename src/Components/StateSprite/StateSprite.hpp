@@ -15,6 +15,15 @@
 
 namespace fg
 {
+    enum class Origin
+    {
+        CENTER,
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT
+    };
+
     class StateSprite
     {
         public:
@@ -27,7 +36,8 @@ namespace fg
             void changeState(std::string stateName);
 
             void setPosition(float x, float y);
-            void scale(float x, float y);
+            void setScale(float x, float y);
+            void setOrigin(Origin origin);
 
             std::shared_ptr<sf::Texture> getTexture(std::string stateName);
             std::string getState() const;
@@ -36,6 +46,7 @@ namespace fg
 
         private:
             std::map<std::string, std::shared_ptr<sf::Texture>> _textures;
+            fg::Origin _origin;
             std::string _state;
             sf::Sprite _sprite;
     };
