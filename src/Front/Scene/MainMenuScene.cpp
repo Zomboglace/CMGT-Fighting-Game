@@ -287,7 +287,8 @@ void fg::MainMenuScene::initialize()
    _buttonNewGameEasy.initialize("assets/button.png");
     _buttonNewGameEasy.setPosition(50, 200);
     _buttonNewGameEasy.setClick(true, "assets/button-hover.png", [&](){
-        createNewGame(0);
+        _difficulty = 0;
+        _state = MainMenuSceneState::CharacterSelection;
     });
     _buttonNewGameEasy.setHover(true, "assets/button-hover.png");
     _buttonNewGameEasy.setText(true, "assets/atwriter.ttf", "Easy", 48, sf::Color::White, 0, -12);
@@ -297,7 +298,8 @@ void fg::MainMenuScene::initialize()
     _buttonNewGameNormal.initialize("assets/button.png");
     _buttonNewGameNormal.setPosition(50, 350);
     _buttonNewGameNormal.setClick(true, "assets/button-hover.png", [&](){
-        createNewGame(1);
+        _difficulty = 1;
+        _state = MainMenuSceneState::CharacterSelection;
     });
     _buttonNewGameNormal.setHover(true, "assets/button-hover.png");
     _buttonNewGameNormal.setText(true, "assets/atwriter.ttf", "Medium", 48, sf::Color::White, 0, -12);
@@ -307,7 +309,8 @@ void fg::MainMenuScene::initialize()
     _buttonNewGameHard.initialize("assets/button.png");
     _buttonNewGameHard.setPosition(50, 500);
     _buttonNewGameHard.setClick(true, "assets/button-hover.png", [&](){
-        createNewGame(2);
+        _difficulty = 2;
+        _state = MainMenuSceneState::CharacterSelection;
     });
     _buttonNewGameHard.setHover(true, "assets/button-hover.png");
     _buttonNewGameHard.setText(true, "assets/atwriter.ttf", "Hard", 48, sf::Color::White, 0, -12);
@@ -317,7 +320,8 @@ void fg::MainMenuScene::initialize()
     _buttonNewGameInsane.initialize("assets/button.png");
     _buttonNewGameInsane.setPosition(50, 650);
     _buttonNewGameInsane.setClick(true, "assets/button-hover.png", [&](){
-        createNewGame(3);
+        _difficulty = 3;
+        _state = MainMenuSceneState::CharacterSelection;
     });
     _buttonNewGameInsane.setHover(true, "assets/button-hover.png");
     _buttonNewGameInsane.setText(true, "assets/atwriter.ttf", "Insane", 48, sf::Color::White, 0, -12);
@@ -334,58 +338,111 @@ void fg::MainMenuScene::initialize()
     _buttonNewGameBack.setSoundClick(true, "assets/button-click.ogg");
     _buttonNewGameBack.setSoundHover(true, "assets/button-hover.ogg");
 
+    /*
+    ** Initialize CharacterSelection
+    */
+
+    // Character selected 1
+    fg::DragSprite _dragCharacterSelected1;
+    _dragCharacterSelected1.initialize(85, 85, sf::Color::Red);
+    _dragCharacterSelected1.setPosition(50, 200);
+    // Character selected 2
+    fg::DragSprite _dragCharacterSelected2;
+    _dragCharacterSelected2.initialize(85, 85, sf::Color::Red);
+    _dragCharacterSelected2.setPosition(50 + 85, 200);
+    // Character selected 3
+    fg::DragSprite _dragCharacterSelected3;
+    _dragCharacterSelected3.initialize(85, 85, sf::Color::Red);
+    _dragCharacterSelected3.setPosition(50 + 85 * 2, 200);
+    // Character selected 4
+    fg::DragSprite _dragCharacterSelected4;
+    _dragCharacterSelected4.initialize(85, 85, sf::Color::Red);
+    _dragCharacterSelected4.setPosition(50 + 85 * 3, 200);
+    // Character class 1
+    fg::DragSprite _dragCharacterClass1;
+    _dragCharacterClass1.initialize("assets/class/Crusader/crusader_portrait_roster.png");
+    _dragCharacterClass1.setPosition(50, 300);
+    // Character class 2
+    fg::DragSprite _dragCharacterClass2;
+    _dragCharacterClass2.initialize("assets/class/Crusader/crusader_portrait_roster2.png");
+    _dragCharacterClass2.setPosition(50 + 85, 300);
+    // Character class 3
+    fg::DragSprite _dragCharacterClass3;
+    _dragCharacterClass3.initialize("assets/class/Crusader/crusader_portrait_roster3.png");
+    _dragCharacterClass3.setPosition(50 + 85 * 2, 300);
+    // Character class 4
+    fg::DragSprite _dragCharacterClass4;
+    _dragCharacterClass4.initialize("assets/class/Crusader/crusader_portrait_roster4.png");
+    _dragCharacterClass4.setPosition(50, 300 + 85);
+    // Character class 5
+    fg::DragSprite _dragCharacterClass5;
+    _dragCharacterClass5.initialize("assets/class/Crusader/crusader_portrait_roster2.png");
+    _dragCharacterClass5.setPosition(50 + 85, 300 + 85);
+    // Character class 6
+    fg::DragSprite _dragCharacterClass6;
+    _dragCharacterClass6.initialize("assets/class/Crusader/crusader_portrait_roster3.png");
+    _dragCharacterClass6.setPosition(50 + 85 * 2, 300 + 85);
+    // Back button
+    _buttonCharacterSelectionBack.initialize("assets/button.png");
+    _buttonCharacterSelectionBack.setPosition(50, 650);
+    _buttonCharacterSelectionBack.setClick(true, "assets/button-hover.png", [&](){
+        _state = MainMenuSceneState::NewGame;
+    });
+    _buttonCharacterSelectionBack.setHover(true, "assets/button-hover.png");
+    _buttonCharacterSelectionBack.setText(true, "assets/atwriter.ttf", "Back", 48, sf::Color::White, 0, -12);
+    _buttonCharacterSelectionBack.setSoundClick(true, "assets/button-click.ogg");
+    _buttonCharacterSelectionBack.setSoundHover(true, "assets/button-hover.ogg");
+
+    // Register drag sprite
+    _dragSpriteManager.registerDragSprite(_dragCharacterSelected1);
+    _dragSpriteManager.registerDragSprite(_dragCharacterSelected2);
+    _dragSpriteManager.registerDragSprite(_dragCharacterSelected3);
+    _dragSpriteManager.registerDragSprite(_dragCharacterSelected4);
+    _dragSpriteManager.registerDragSprite(_dragCharacterClass1);
+    _dragSpriteManager.registerDragSprite(_dragCharacterClass2);
+    _dragSpriteManager.registerDragSprite(_dragCharacterClass3);
+    _dragSpriteManager.registerDragSprite(_dragCharacterClass4);
+    _dragSpriteManager.registerDragSprite(_dragCharacterClass5);
+    _dragSpriteManager.registerDragSprite(_dragCharacterClass6);
+
+
+
     setVolume();
 }
 
 void fg::MainMenuScene::event(sf::RenderWindow &window, sf::Event &event)
 {
     if (_state == MainMenuSceneState::Start) {
-        _buttonStart.click(event);
-        _buttonStart.hover(event);
-        _buttonOption.click(event);
-        _buttonOption.hover(event);
-        _buttonQuit.click(event);
-        _buttonQuit.hover(event);
+        _buttonStart.event(window, event);
+        _buttonOption.event(window, event);
+        _buttonQuit.event(window, event);
     }
     if (_state == MainMenuSceneState::Option) {
-        _buttonOptionBack.click(event);
-        _buttonOptionBack.hover(event);
-        _buttonOptionMusicDown.click(event);
-        _buttonOptionMusicDown.hover(event);
-        _buttonOptionMusicUp.click(event);
-        _buttonOptionMusicUp.hover(event);
-        _buttonOptionSoundDown.click(event);
-        _buttonOptionSoundDown.hover(event);
-        _buttonOptionSoundUp.click(event);
-        _buttonOptionSoundUp.hover(event);
+        _buttonOptionBack.event(window, event);
+        _buttonOptionMusicDown.event(window, event);
+        _buttonOptionMusicUp.event(window, event);
+        _buttonOptionSoundDown.event(window, event);
+        _buttonOptionSoundUp.event(window, event);
     }
     if (_state == MainMenuSceneState::Play) {
-        _buttonSave1.click(event);
-        _buttonSave1.hover(event);
-        _buttonSave2.click(event);
-        _buttonSave2.hover(event);
-        _buttonSave3.click(event);
-        _buttonSave3.hover(event);
-        _buttonDelete1.click(event);
-        _buttonDelete1.hover(event);
-        _buttonDelete2.click(event);
-        _buttonDelete2.hover(event);
-        _buttonDelete3.click(event);
-        _buttonDelete3.hover(event);
-        _buttonPlayBack.click(event);
-        _buttonPlayBack.hover(event);
+        _buttonSave1.event(window, event);
+        _buttonSave2.event(window, event);
+        _buttonSave3.event(window, event);
+        _buttonDelete1.event(window, event);
+        _buttonDelete2.event(window, event);
+        _buttonDelete3.event(window, event);
+        _buttonPlayBack.event(window, event);
     }
     if (_state == MainMenuSceneState::NewGame) {
-        _buttonNewGameEasy.click(event);
-        _buttonNewGameEasy.hover(event);
-        _buttonNewGameNormal.click(event);
-        _buttonNewGameNormal.hover(event);
-        _buttonNewGameHard.click(event);
-        _buttonNewGameHard.hover(event);
-        _buttonNewGameInsane.click(event);
-        _buttonNewGameInsane.hover(event);
-        _buttonNewGameBack.click(event);
-        _buttonNewGameBack.hover(event);
+        _buttonNewGameEasy.event(window, event);
+        _buttonNewGameNormal.event(window, event);
+        _buttonNewGameHard.event(window, event);
+        _buttonNewGameInsane.event(window, event);
+        _buttonNewGameBack.event(window, event);
+    }
+    if (_state == MainMenuSceneState::CharacterSelection) {
+        _dragSpriteManager.event(window, event);
+        _buttonCharacterSelectionBack.event(window, event);
     }
 }
 
@@ -452,6 +509,11 @@ void fg::MainMenuScene::draw(sf::RenderWindow &window)
         window.draw(_buttonNewGameBack.getSprite());
         window.draw(_buttonNewGameBack.getText());
     }
+    if (_state == MainMenuSceneState::CharacterSelection) {
+        _dragSpriteManager.draw(window);
+        window.draw(_buttonCharacterSelectionBack.getSprite());
+        window.draw(_buttonCharacterSelectionBack.getText());
+    }
 }
 
 void fg::MainMenuScene::setVolume()
@@ -483,6 +545,7 @@ void fg::MainMenuScene::setSoundVolume()
     _buttonNewGameHard.setVolume(soundVolume);
     _buttonNewGameInsane.setVolume(soundVolume);
     _buttonNewGameBack.setVolume(soundVolume);
+    _buttonCharacterSelectionBack.setVolume(soundVolume);
 }
 
 void fg::MainMenuScene::setMusicVolume()

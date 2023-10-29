@@ -13,6 +13,7 @@
 #include "AnimatedSprite.hpp"
 #include "ButtonSprite.hpp"
 #include "RectSprite.hpp"
+#include "DragSpriteManager.hpp"
 #include "Text.hpp"
 #include "Music.hpp"
 #include "FileWriter.hpp"
@@ -26,7 +27,8 @@ namespace fg
         Start,
         Option,
         Play,
-        NewGame
+        NewGame,
+        CharacterSelection,
     };
 
     class MainMenuScene : public Scene
@@ -85,10 +87,30 @@ namespace fg
 
             // NewGame
             int _save;
+            int _difficulty;
             fg::ButtonSprite _buttonNewGameEasy;
             fg::ButtonSprite _buttonNewGameNormal;
             fg::ButtonSprite _buttonNewGameHard;
             fg::ButtonSprite _buttonNewGameInsane;
             fg::ButtonSprite _buttonNewGameBack;
+
+            // CharacterSelection
+            int _characterSkin1;
+            int _characterSkin2;
+            int _characterSkin3;
+            int _characterSkin4;
+            fg::DragSpriteManager _dragSpriteManager;
+
+            // fg::DragSprite _dragCharacterSelected1;
+            // fg::DragSprite _dragCharacterSelected2;
+            // fg::DragSprite _dragCharacterSelected3;
+            // fg::DragSprite _dragCharacterSelected4;
+            // fg::DragSprite _dragCharacterClass1;
+            // fg::DragSprite _dragCharacterClass2;
+            // fg::DragSprite _dragCharacterClass3;
+            // fg::DragSprite _dragCharacterClass4;
+            // fg::DragSprite _dragCharacterClass5;
+            // fg::DragSprite _dragCharacterClass6;
+            fg::ButtonSprite _buttonCharacterSelectionBack;
     };
 }
