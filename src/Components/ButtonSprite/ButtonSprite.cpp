@@ -66,6 +66,12 @@ void fg::ButtonSprite::setSoundHover(bool sound, std::string filepath, float vol
     }
 }
 
+void fg::ButtonSprite::event(sf::RenderWindow &window, sf::Event &event)
+{
+    click(event);
+    hover(event);
+}
+
 void fg::ButtonSprite::click(sf::Event &event)
 {
     if (!_click)

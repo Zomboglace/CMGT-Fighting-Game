@@ -28,6 +28,7 @@ namespace fg
             void setSoundClick(bool sound, std::string filepath = "", float volume = 100.0f);
             void setSoundHover(bool sound, std::string filepath = "", float volume = 100.0f);
 
+            void event(sf::RenderWindow &window, sf::Event &event);
             void click(sf::Event &event);
             void hover(sf::Event &event);
 
