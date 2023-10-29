@@ -16,7 +16,6 @@ void fg::DragSpriteManager::registerDragSprite(DragSprite &dragSprite)
 {
     dragSprite.setID(_id);
     _id++;
-    std::cout << "DragSpriteManager::registerDragSprite: registered DragSprite with id " << dragSprite.getID() << " and dragIndex " << dragSprite.getDragIndex() << std::endl;
     _dragSprites.push_back(dragSprite);
 }
 
