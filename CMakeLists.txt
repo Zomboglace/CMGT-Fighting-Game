@@ -34,6 +34,7 @@ include_directories(
 	${PROJECT_ROOT_DIR}src/Components/FileWriter
 	${PROJECT_ROOT_DIR}src/Components/StateSprite
 	${PROJECT_ROOT_DIR}src/Components/DragSprite
+	${PROJECT_ROOT_DIR}src/Components/RandomGenerator
 	${PROJECT_ROOT_DIR}src/Engine
 	${PROJECT_ROOT_DIR}src/Front/Game
 	${PROJECT_ROOT_DIR}src/Front/Scene/
