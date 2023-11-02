@@ -41,6 +41,8 @@ namespace fg
             void setCanTakeDrop(bool canTakeDrop);
             void setIsDragged(bool isDragged);
             void setDragIndex(int dragIndex);
+            void setFilePath(std::string filepath);
+            void setClassFilePath(std::string filepath);
 
             unsigned int getID();
             bool getCanBeDragged();
@@ -48,7 +50,14 @@ namespace fg
             bool getIsDragged();
             int getDragIndex();
 
+
             std::shared_ptr<sf::Texture> getTexture();
+            sf::Sprite &getSprite();
+            sf::Sprite &getDraggedSprite();
+            std::string getFilePath();
+            std::string getClassFilePath();
+
+
 
         private:
             unsigned int _id;
@@ -71,6 +80,7 @@ namespace fg
             sf::Vector2f _scale;
 
             std::string _filepath;
+            std::string _classFilePath;
             bool _canBeDragged;
             bool _canTakeDrop;
             bool _isDragged;

@@ -42,3 +42,29 @@ void fg::DragSpriteManager::event(sf::RenderWindow &window, sf::Event &event)
     }
 }
 
+fg::DragSprite &fg::DragSpriteManager::getDragSprite(int id)
+{
+    for (auto &dragSprite : _dragSprites) {
+        if (dragSprite.getID() == id) {
+            return dragSprite;
+        }
+    }
+    throw std::runtime_error("DragSpriteManager::getDragSprite: DragSprite not found");
+}
+
+std::vector<fg::DragSprite> &fg::DragSpriteManager::getDragSprites(int dragIndex)
+{
+    std::vector<DragSprite> *dragSprites = new std::vector<DragSprite>();
+
+    for (auto &dragSprite : _dragSprites) {
+        if (dragSprite.getDragIndex() == dragIndex) {
+            dragSprites->push_back(dragSprite);
+        }
+    }
+    return *dragSprites;
+}
+
+std::vector<fg::DragSprite> &fg::DragSpriteManager::getDragSprites()
+{
+    return _dragSprites;
+}

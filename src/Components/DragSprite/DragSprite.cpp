@@ -12,6 +12,7 @@ fg::DragSprite::DragSprite()
     _initialized(false),
     _hasTexture(false),
     _filepath(""),
+    _classFilePath(""),
     _canBeDragged(false),
     _canTakeDrop(false),
     _isDragged(false),
@@ -126,6 +127,7 @@ void fg::DragSprite::drop(sf::RenderWindow &window, sf::Event &event, DragSprite
                     bounds = _emptyShape.getGlobalBounds();
                 if (bounds.contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
                     _texture = dragSprite.getTexture();
+                    setClassFilePath(dragSprite.getClassFilePath());
                     _sprite.setTexture(*_texture);
                     _sprite.setPosition(_position);
                     _hasTexture = true;
@@ -220,6 +222,16 @@ void fg::DragSprite::setDragIndex(int dragIndex)
     _dragIndex = dragIndex;
 }
 
+void fg::DragSprite::setFilePath(std::string filepath)
+{
+    _filepath = filepath;
+}
+
+void fg::DragSprite::setClassFilePath(std::string filepath)
+{
+    _classFilePath = filepath;
+}
+
 unsigned int fg::DragSprite::getID()
 {
     return _id;
@@ -252,4 +264,24 @@ std::shared_ptr<sf::Texture> fg::DragSprite::getTexture()
         return nullptr;
     }
     return _texture;
+}
+
+sf::Sprite &fg::DragSprite::getSprite()
+{
+    return _sprite;
+}
+
+sf::Sprite &fg::DragSprite::getDraggedSprite()
+{
+    return _draggedSprite;
+}
+
+std::string fg::DragSprite::getFilePath()
+{
+    return _filepath;
+}
+
+std::string fg::DragSprite::getClassFilePath()
+{
+    return _classFilePath;
 }

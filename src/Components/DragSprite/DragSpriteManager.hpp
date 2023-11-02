@@ -27,9 +27,8 @@ namespace fg
             void draw(sf::RenderWindow &window);
 
             void event(sf::RenderWindow &window, sf::Event &event);
-            void drag(sf::RenderWindow &window, sf::Event &event);
-            void drop(sf::RenderWindow &window, sf::Event &event);
 
+            DragSprite &getDragSprite(int id);
             std::vector<DragSprite> &getDragSprites(int dragIndex);
             std::vector<DragSprite> &getDragSprites();
 
