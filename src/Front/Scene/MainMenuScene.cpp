@@ -342,46 +342,66 @@ void fg::MainMenuScene::initialize()
     ** Initialize CharacterSelection
     */
 
+
+
+    int relativePositionX = 120;
+    int relativePositionY = 200;
     // Character selected 1
     fg::DragSprite _dragCharacterSelected1;
     _dragCharacterSelected1.initialize(85, 85, sf::Color::Red);
-    _dragCharacterSelected1.setPosition(50, 200);
+    _dragCharacterSelected1.setPosition(relativePositionX, relativePositionY);
     // Character selected 2
     fg::DragSprite _dragCharacterSelected2;
     _dragCharacterSelected2.initialize(85, 85, sf::Color::Red);
-    _dragCharacterSelected2.setPosition(50 + 85, 200);
+    _dragCharacterSelected2.setPosition(relativePositionX + 85, relativePositionY);
     // Character selected 3
     fg::DragSprite _dragCharacterSelected3;
     _dragCharacterSelected3.initialize(85, 85, sf::Color::Red);
-    _dragCharacterSelected3.setPosition(50 + 85 * 2, 200);
+    _dragCharacterSelected3.setPosition(relativePositionX + 85 * 2, relativePositionY);
     // Character selected 4
     fg::DragSprite _dragCharacterSelected4;
     _dragCharacterSelected4.initialize(85, 85, sf::Color::Red);
-    _dragCharacterSelected4.setPosition(50 + 85 * 3, 200);
+    _dragCharacterSelected4.setPosition(relativePositionX + 85 * 3, relativePositionY);
     // Character class 1
     fg::DragSprite _dragCharacterClass1;
     _dragCharacterClass1.initialize("assets/class/Crusader/crusader_portrait_roster.png");
-    _dragCharacterClass1.setPosition(50, 300);
+    _dragCharacterClass1.setClassFilePath("save/class/crusader.cmgt");
+    _dragCharacterClass1.setPosition(relativePositionX, relativePositionY + 100);
     // Character class 2
     fg::DragSprite _dragCharacterClass2;
-    _dragCharacterClass2.initialize("assets/class/Crusader/crusader_portrait_roster2.png");
-    _dragCharacterClass2.setPosition(50 + 85, 300);
+    _dragCharacterClass2.initialize("assets/class/Crusader/crusader_portrait_roster.png");
+    _dragCharacterClass2.setClassFilePath("save/class/crusader.cmgt");
+    _dragCharacterClass2.setPosition(relativePositionX + 85, relativePositionY + 100);
     // Character class 3
     fg::DragSprite _dragCharacterClass3;
-    _dragCharacterClass3.initialize("assets/class/Crusader/crusader_portrait_roster3.png");
-    _dragCharacterClass3.setPosition(50 + 85 * 2, 300);
+    _dragCharacterClass3.initialize("assets/class/Crusader/crusader_portrait_roster.png");
+    _dragCharacterClass3.setClassFilePath("save/class/crusader.cmgt");
+    _dragCharacterClass3.setPosition(relativePositionX + 85 * 2, relativePositionY + 100);
     // Character class 4
     fg::DragSprite _dragCharacterClass4;
-    _dragCharacterClass4.initialize("assets/class/Crusader/crusader_portrait_roster4.png");
-    _dragCharacterClass4.setPosition(50, 300 + 85);
+    _dragCharacterClass4.initialize("assets/class/Crusader/crusader_portrait_roster.png");
+    _dragCharacterClass4.setClassFilePath("save/class/crusader.cmgt");
+    _dragCharacterClass4.setPosition(relativePositionX, relativePositionY + 100 + 85);
     // Character class 5
     fg::DragSprite _dragCharacterClass5;
-    _dragCharacterClass5.initialize("assets/class/Crusader/crusader_portrait_roster2.png");
-    _dragCharacterClass5.setPosition(50 + 85, 300 + 85);
+    _dragCharacterClass5.initialize("assets/class/Crusader/crusader_portrait_roster.png");
+    _dragCharacterClass5.setClassFilePath("save/class/crusader.cmgt");
+    _dragCharacterClass5.setPosition(relativePositionX + 85, relativePositionY + 100 + 85);
     // Character class 6
     fg::DragSprite _dragCharacterClass6;
-    _dragCharacterClass6.initialize("assets/class/Crusader/crusader_portrait_roster3.png");
-    _dragCharacterClass6.setPosition(50 + 85 * 2, 300 + 85);
+    _dragCharacterClass6.initialize("assets/class/Crusader/crusader_portrait_roster.png");
+    _dragCharacterClass6.setClassFilePath("save/class/crusader.cmgt");
+    _dragCharacterClass6.setPosition(relativePositionX + 85 * 2, relativePositionY + 100 + 85);
+    // Start button
+    _buttonCharacterSelectionStart.initialize("assets/button.png");
+    _buttonCharacterSelectionStart.setPosition(600, 650);
+    _buttonCharacterSelectionStart.setClick(true, "assets/button-hover.png", [&](){
+        createNewGame();
+    });
+    _buttonCharacterSelectionStart.setHover(true, "assets/button-hover.png");
+    _buttonCharacterSelectionStart.setText(true, "assets/atwriter.ttf", "Start", 48, sf::Color::White, 0, -12);
+    _buttonCharacterSelectionStart.setSoundClick(true, "assets/button-click.ogg");
+    _buttonCharacterSelectionStart.setSoundHover(true, "assets/button-hover.ogg");
     // Back button
     _buttonCharacterSelectionBack.initialize("assets/button.png");
     _buttonCharacterSelectionBack.setPosition(50, 650);
@@ -406,7 +426,7 @@ void fg::MainMenuScene::initialize()
     _dragSpriteManager.registerDragSprite(_dragCharacterClass6);
 
 
-
+    generateClassesTemplate();
     setVolume();
 }
 
@@ -442,6 +462,7 @@ void fg::MainMenuScene::event(sf::RenderWindow &window, sf::Event &event)
     }
     if (_state == MainMenuSceneState::CharacterSelection) {
         _dragSpriteManager.event(window, event);
+        _buttonCharacterSelectionStart.event(window, event);
         _buttonCharacterSelectionBack.event(window, event);
     }
 }
@@ -511,6 +532,8 @@ void fg::MainMenuScene::draw(sf::RenderWindow &window)
     }
     if (_state == MainMenuSceneState::CharacterSelection) {
         _dragSpriteManager.draw(window);
+        window.draw(_buttonCharacterSelectionStart.getSprite());
+        window.draw(_buttonCharacterSelectionStart.getText());
         window.draw(_buttonCharacterSelectionBack.getSprite());
         window.draw(_buttonCharacterSelectionBack.getText());
     }
@@ -554,17 +577,105 @@ void fg::MainMenuScene::setMusicVolume()
     _music.setVolume(musicVolume);
 }
 
-void fg::MainMenuScene::createNewGame(int difficulty)
+void fg::MainMenuScene::createNewGame()
 {
     fg::FileWriter fileWriter;
     fileWriter.addData("save", _save);
-    fileWriter.addData("difficulty", difficulty);
+    fileWriter.addData("difficulty", _difficulty);
     fileWriter.addData("state", static_cast<int>(GameSceneState::FIGHT));
     fileWriter.addData("stage", 0);
     fileWriter.addData("courage", 0);
     fileWriter.addData("t1", "save/s" + std::to_string(_save) + ".t1.cmgt");
     fileWriter.addData("t2", "save/s" + std::to_string(_save) + ".t2.cmgt");
     fileWriter.save("save/save" + std::to_string(_save) + ".cmgt");
+
+    for (int i = 0; i < 4; i++) {
+        try {
+            fg::FileWriter fileWriterC;
+            fileWriterC.load(_dragSpriteManager.getDragSprite(i).getClassFilePath());
+            fileWriterC.addData("name", fileWriterC.getData<std::string>("name"));
+            fileWriterC.addData("class", fileWriterC.getData<int>("class"));
+            fileWriterC.addData("level", fileWriterC.getData<int>("level"));
+            fileWriterC.addData("health", fileWriterC.getData<int>("health"));
+            fileWriterC.addData("maxHealth", fileWriterC.getData<int>("maxHealth"));
+            fileWriterC.addData("sanity", fileWriterC.getData<int>("sanity"));
+            fileWriterC.addData("initiative", fileWriterC.getData<int>("initiative"));
+            fileWriterC.addData("idle", fileWriterC.getData<std::string>("idle"));
+            fileWriterC.addData("combat", fileWriterC.getData<std::string>("combat"));
+            fileWriterC.addData("camp", fileWriterC.getData<std::string>("camp"));
+            fileWriterC.addData("attack1", fileWriterC.getData<std::string>("attack1"));
+            fileWriterC.addData("attack2", fileWriterC.getData<std::string>("attack2"));
+            fileWriterC.addData("attack3", fileWriterC.getData<std::string>("attack3"));
+            fileWriterC.addData("attack4", fileWriterC.getData<std::string>("attack4"));
+            fileWriterC.save("save/s" + std::to_string(_save) + ".p" + std::to_string(i) + ".cmgt");
+        } catch (const std::exception &e) {
+            std::cout << RED << e.what() << RESET << std::endl;
+            throw std::invalid_argument("[Critical error] Class file not found");
+        }
+    }
+    fg::FileWriter fileWriterT;
+    fileWriterT.addData("alive", 4);
+    for (int i = 0; i < 4; i++) {
+        fileWriterT.addData(std::to_string(i), "save/s" + std::to_string(_save) + ".p" + std::to_string(i) + ".cmgt");
+    }
+    fileWriterT.save("save/s" + std::to_string(_save) + ".t1.cmgt");
+
+    for (int i = 0; i < 2; i++) {
+        try {
+            fg::FileWriter fileWriterM;
+            fileWriterM.load("save/class/cutthroat.cmgt");
+            fileWriterM.addData("name", fileWriterM.getData<std::string>("name"));
+            fileWriterM.addData("class", fileWriterM.getData<int>("class"));
+            fileWriterM.addData("level", fileWriterM.getData<int>("level"));
+            fileWriterM.addData("health", fileWriterM.getData<int>("health"));
+            fileWriterM.addData("maxHealth", fileWriterM.getData<int>("maxHealth"));
+            fileWriterM.addData("sanity", fileWriterM.getData<int>("sanity"));
+            fileWriterM.addData("initiative", fileWriterM.getData<int>("initiative"));
+            fileWriterM.addData("idle", fileWriterM.getData<std::string>("idle"));
+            fileWriterM.addData("combat", fileWriterM.getData<std::string>("combat"));
+            fileWriterM.addData("camp", fileWriterM.getData<std::string>("camp"));
+            fileWriterM.addData("attack1", fileWriterM.getData<std::string>("attack1"));
+            fileWriterM.addData("attack2", fileWriterM.getData<std::string>("attack2"));
+            fileWriterM.addData("attack3", fileWriterM.getData<std::string>("attack3"));
+            fileWriterM.addData("attack4", fileWriterM.getData<std::string>("attack4"));
+            fileWriterM.save("save/s" + std::to_string(_save) + ".e" + std::to_string(i) + ".cmgt");
+        } catch (const std::exception &e) {
+            std::cout << RED << e.what() << RESET << std::endl;
+            throw std::invalid_argument("[Critical error] Monster file not found");
+        }
+    }
+
+    for (int i = 0; i < 2; i++) {
+        try {
+            fg::FileWriter fileWriterM;
+            fileWriterM.load("save/class/cutthroat.cmgt");
+            fileWriterM.addData("name", fileWriterM.getData<std::string>("name"));
+            fileWriterM.addData("class", fileWriterM.getData<int>("class"));
+            fileWriterM.addData("level", fileWriterM.getData<int>("level"));
+            fileWriterM.addData("health", fileWriterM.getData<int>("health"));
+            fileWriterM.addData("maxHealth", fileWriterM.getData<int>("maxHealth"));
+            fileWriterM.addData("sanity", fileWriterM.getData<int>("sanity"));
+            fileWriterM.addData("initiative", fileWriterM.getData<int>("initiative"));
+            fileWriterM.addData("idle", fileWriterM.getData<std::string>("idle"));
+            fileWriterM.addData("combat", fileWriterM.getData<std::string>("combat"));
+            fileWriterM.addData("camp", fileWriterM.getData<std::string>("camp"));
+            fileWriterM.addData("attack1", fileWriterM.getData<std::string>("attack1"));
+            fileWriterM.addData("attack2", fileWriterM.getData<std::string>("attack2"));
+            fileWriterM.addData("attack3", fileWriterM.getData<std::string>("attack3"));
+            fileWriterM.addData("attack4", fileWriterM.getData<std::string>("attack4"));
+            fileWriterM.save("save/s" + std::to_string(_save) + ".e" + std::to_string(i + 2) + ".cmgt");
+        } catch (const std::exception &e) {
+            std::cout << RED << e.what() << RESET << std::endl;
+            throw std::invalid_argument("[Critical error] Monster file not found");
+        }
+    }
+
+    fg::FileWriter fileWriterE;
+    fileWriterE.addData("alive", 4);
+    for (int i = 0; i < 4; i++) {
+        fileWriterE.addData(std::to_string(i), "save/s" + std::to_string(_save) + ".e" + std::to_string(i) + ".cmgt");
+    }
+    fileWriterE.save("save/s" + std::to_string(_save) + ".t2.cmgt");
 
     fg::FileWriter fileWriter2;
     fileWriter2.addData("save1", _save == 1 ? true : _save1);
@@ -606,4 +717,94 @@ void fg::MainMenuScene::deleteSave(int save)
         _buttonSave3.setText(true, "assets/atwriter.ttf", "New Game", 48, sf::Color::White, 0, -12);
     }
     fileWriter.save("save/save.cmgt");
+}
+
+void fg::MainMenuScene::generateClassesTemplate()
+{
+    try {
+        std::cout << YELLOW << "Loading classes..." << RESET << std::endl;
+        generateCrusaderTemplate();
+        std::cout << GREEN << "Classes loaded!" << RESET << std::endl;
+        std::cout << YELLOW << "Loading monsters..." << RESET << std::endl;
+        generateCutthroatTemplate();
+        generateFusilierTemplate();
+        std::cout << GREEN << "Monsters loaded!" << RESET << std::endl;
+    } catch (std::exception &e) {
+        std::cout << RED << e.what() << RESET << std::endl;
+    }
+}
+
+void fg::MainMenuScene::generateCrusaderTemplate()
+{
+    try {
+        fg::FileWriter fileWriter;
+        fileWriter.addData("name", "Crusader");
+        fileWriter.addData("class", static_cast<int>(fg::Class::Crusader));
+        fileWriter.addData("level", 0);
+        fileWriter.addData("health", 20);
+        fileWriter.addData("maxHealth", 20);
+        fileWriter.addData("sanity", 0);
+        fileWriter.addData("initiative", 5);
+        fileWriter.addData("idle", "assets/class/Crusader/crusader.sprite.idle.png");
+        fileWriter.addData("combat", "assets/class/Crusader/crusader.sprite.combat.png");
+        fileWriter.addData("defend", "assets/class/Crusader/crusader.sprite.defend.png");
+        fileWriter.addData("camp", "assets/class/Crusader/crusader.sprite.camp.png");
+        fileWriter.addData("attack1", "assets/class/Crusader/crusader.sprite.attack_sword.png");
+        fileWriter.addData("attack2", "assets/class/Crusader/crusader.sprite.attack_stun.png");
+        fileWriter.addData("attack3", "assets/class/Crusader/crusader.sprite.attack_charge.png");
+        fileWriter.addData("attack4", "assets/class/Crusader/crusader.sprite.attack_heal.png");
+        fileWriter.save("save/class/crusader.cmgt");
+    } catch (std::exception &e) {
+        std::cout << RED << e.what() << RESET << std::endl;
+    }
+}
+
+void fg::MainMenuScene::generateCutthroatTemplate()
+{
+    try {
+        fg::FileWriter fileWriter;
+        fileWriter.addData("name", "Brigand Cut Throat");
+        fileWriter.addData("class", static_cast<int>(fg::Class::Monster));
+        fileWriter.addData("level", 0);
+        fileWriter.addData("health", 10);
+        fileWriter.addData("maxHealth", 10);
+        fileWriter.addData("sanity", 0);
+        fileWriter.addData("initiative", 4);
+        fileWriter.addData("idle", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.combat.png");
+        fileWriter.addData("combat", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.combat.png");
+        fileWriter.addData("defend", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.defend.png");
+        fileWriter.addData("camp", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.combat.png");
+        fileWriter.addData("attack1", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.attack_uppercut.png");
+        fileWriter.addData("attack2", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.attack_uppercut.png");
+        fileWriter.addData("attack3", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.attack_lunge.png");
+        fileWriter.addData("attack4", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.attack_lunge.png");
+        fileWriter.save("save/class/cutthroat.cmgt");
+    } catch (std::exception &e) {
+        std::cout << RED << e.what() << RESET << std::endl;
+    }
+}
+
+void fg::MainMenuScene::generateFusilierTemplate()
+{
+    try {
+        fg::FileWriter fileWriter;
+        fileWriter.addData("name", "Brigand Fusilier");
+        fileWriter.addData("class", static_cast<int>(fg::Class::Monster));
+        fileWriter.addData("level", 0);
+        fileWriter.addData("health", 7);
+        fileWriter.addData("maxHealth", 7);
+        fileWriter.addData("sanity", 0);
+        fileWriter.addData("initiative", 5);
+        fileWriter.addData("idle", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.combat.png");
+        fileWriter.addData("combat", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.combat.png");
+        fileWriter.addData("defend", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.defend.png");
+        fileWriter.addData("camp", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.combat.png");
+        fileWriter.addData("attack1", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.attack_ranged.png");
+        fileWriter.addData("attack2", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.attack_ranged.png");
+        fileWriter.addData("attack3", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.attack_ranged.png");
+        fileWriter.addData("attack4", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.attack_ranged.png");
+        fileWriter.save("save/class/fusilier.cmgt");
+    } catch (std::exception &e) {
+        std::cout << RED << e.what() << RESET << std::endl;
+    }
 }

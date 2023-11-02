@@ -47,8 +47,13 @@ namespace fg
             void setSoundVolume();
             void setMusicVolume();
 
-            void createNewGame(int difficulty);
+            void createNewGame();
             void deleteSave(int save);
+
+            void generateClassesTemplate();
+            void generateCrusaderTemplate();
+            void generateCutthroatTemplate();
+            void generateFusilierTemplate();
 
         private:
             fg::AnimatedSprite _animatedBackground;
@@ -100,17 +105,7 @@ namespace fg
             int _characterSkin3;
             int _characterSkin4;
             fg::DragSpriteManager _dragSpriteManager;
-
-            // fg::DragSprite _dragCharacterSelected1;
-            // fg::DragSprite _dragCharacterSelected2;
-            // fg::DragSprite _dragCharacterSelected3;
-            // fg::DragSprite _dragCharacterSelected4;
-            // fg::DragSprite _dragCharacterClass1;
-            // fg::DragSprite _dragCharacterClass2;
-            // fg::DragSprite _dragCharacterClass3;
-            // fg::DragSprite _dragCharacterClass4;
-            // fg::DragSprite _dragCharacterClass5;
-            // fg::DragSprite _dragCharacterClass6;
+            fg::ButtonSprite _buttonCharacterSelectionStart;
             fg::ButtonSprite _buttonCharacterSelectionBack;
     };
 }
