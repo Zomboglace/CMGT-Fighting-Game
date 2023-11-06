@@ -15,6 +15,7 @@
 #include "FileWriter.hpp"
 #include "AbilityList.hpp"
 #include "RandomGenerator.hpp"
+#include "HealthBar.hpp"
 
 namespace fg
 {
@@ -37,6 +38,12 @@ namespace fg
             Entity() = default;
             Entity(const std::string &filepath);
             ~Entity() = default;
+
+            void initialize();
+
+            void update();
+            void draw(sf::RenderWindow &window);
+            void event(sf::Event &event);
 
             void save();
             void save(const std::string &filepath);
@@ -86,6 +93,8 @@ namespace fg
             std::string _name;
             fg::Class _className;
             fg::AbilityList _abilityList;
+            fg::HealthBar _healthBar;
+            fg::HealthBar _sanityBar;
             
             int _level;
             int _health;

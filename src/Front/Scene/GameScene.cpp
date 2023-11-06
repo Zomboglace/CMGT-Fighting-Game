@@ -33,18 +33,18 @@ void fg::GameScene::initialize()
 
     // Player team
     for (auto &entity : _playerTeam.getEntities()) {
-        entity.first.getStateSprite().setPosition(width / 2 - 200 - entity.second * 140, 600);
+        entity.first.getStateSprite().setPosition(width / 2 - 200 - entity.second * 140, 400);
     }
     // Enemy team
     for (auto &entity : _enemyTeam.getEntities()) {
-        entity.first.getStateSprite().setPosition(width - 140 * 4 + entity.second * 140, 600);
+        entity.first.getStateSprite().setPosition(width - 140 * 4 + entity.second * 140, 400);
     }
 
     // Background
     _background.initialize("assets/background/fight_background.png", "fight");
     _background.addState("assets/background/camp_background.png", "camp");
     _background.setOrigin(fg::Origin::CENTER);
-    _background.setPosition(width / 2, height / 2 - 100);
+    _background.setPosition(width / 2, height / 2 - 300);
 
 }
 
@@ -92,17 +92,22 @@ void fg::GameScene::event(sf::RenderWindow &window, sf::Event &event)
 
 void fg::GameScene::update(sf::RenderWindow &window)
 {
-
+    for (auto &entity : _playerTeam.getEntities()) {
+        entity.first.update();
+    }
+    for (auto &entity : _enemyTeam.getEntities()) {
+        entity.first.update();
+    }
 }
 
 void fg::GameScene::draw(sf::RenderWindow &window)
 {
     window.draw(_background.getSprite());
     for (auto &entity : _playerTeam.getEntities()) {
-        window.draw(entity.first.getSprite());
+        entity.first.draw(window);
     }
     for (auto &entity : _enemyTeam.getEntities()) {
-        window.draw(entity.first.getSprite());
+        entity.first.draw(window);
     }
 }
 

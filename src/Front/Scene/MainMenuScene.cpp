@@ -743,7 +743,7 @@ void fg::MainMenuScene::generateCrusaderTemplate()
         fileWriter.addData("level", 0);
         fileWriter.addData("health", 20);
         fileWriter.addData("maxHealth", 20);
-        fileWriter.addData("sanity", 0);
+        fileWriter.addData("sanity", 100);
         fileWriter.addData("initiative", 5);
         fileWriter.addData("idle", "assets/class/Crusader/crusader.sprite.idle.png");
         fileWriter.addData("combat", "assets/class/Crusader/crusader.sprite.combat.png");
@@ -768,7 +768,7 @@ void fg::MainMenuScene::generateCutthroatTemplate()
         fileWriter.addData("level", 0);
         fileWriter.addData("health", 10);
         fileWriter.addData("maxHealth", 10);
-        fileWriter.addData("sanity", 0);
+        fileWriter.addData("sanity", 100);
         fileWriter.addData("initiative", 4);
         fileWriter.addData("idle", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.combat.png");
         fileWriter.addData("combat", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.combat.png");
@@ -793,7 +793,7 @@ void fg::MainMenuScene::generateFusilierTemplate()
         fileWriter.addData("level", 0);
         fileWriter.addData("health", 7);
         fileWriter.addData("maxHealth", 7);
-        fileWriter.addData("sanity", 0);
+        fileWriter.addData("sanity", 100);
         fileWriter.addData("initiative", 5);
         fileWriter.addData("idle", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.combat.png");
         fileWriter.addData("combat", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.combat.png");
