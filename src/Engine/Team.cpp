@@ -141,10 +141,10 @@ void fg::Team::load()
                 std::string entityFilepath = file.getData<std::string>(name);
                 _entities.push_back(std::make_pair(Entity(entityFilepath), i));
             }
+            std::cout << GREEN << "Team " << _filepath << " loaded!" << RESET << std::endl;
         } else {
             throw std::invalid_argument("Team " + _filepath + " not found!");
         }
-        std::cout << GREEN << "Team " << _filepath << " loaded!" << RESET << std::endl;
     } catch (const std::exception &e) {
         std::cout << RED << e.what() << RESET << std::endl;
         throw std::invalid_argument(e.what());
