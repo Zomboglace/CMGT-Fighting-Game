@@ -15,10 +15,11 @@ fg::FillShape::FillShape()
 
 void fg::FillShape::initialize(sf::Color outlineColor, sf::Color fillColor, sf::Color backgroundColor)
 {
-    _shape.setOutlineThickness(2);
-    _shape.setOutlineColor(outlineColor);
     _shape.setFillColor(fillColor);
+    _background.setOutlineThickness(2);
     _background.setFillColor(backgroundColor);
+    _background.setOutlineColor(outlineColor);
+    setSize(100, 20);
 }
 
 void fg::FillShape::update()
@@ -54,7 +55,7 @@ void fg::FillShape::setOutlineThickness(float thickness)
 void fg::FillShape::setOutlineColor(sf::Color color)
 {
     _outlineColor = color;
-    _shape.setOutlineColor(_outlineColor);
+    _background.setOutlineColor(_outlineColor);
 }
 
 void fg::FillShape::setFillColor(sf::Color color)
