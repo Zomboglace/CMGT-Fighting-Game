@@ -13,6 +13,7 @@
 #include "FileWriter.hpp"
 #include "Team.hpp"
 #include "Entity.hpp"
+#include "Hud.hpp"
 
 namespace fg
 {
@@ -69,6 +70,7 @@ namespace fg
             // Fight
             std::vector<std::pair<int, int>> _initiativeOrder;
             int _currentEntityTurn;
+            fg::Hud _hud;
 
             
             // Camp

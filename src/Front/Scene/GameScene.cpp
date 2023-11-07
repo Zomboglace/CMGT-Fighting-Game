@@ -33,19 +33,22 @@ void fg::GameScene::initialize()
 
     // Player team
     for (auto &entity : _playerTeam.getEntities()) {
-        entity.first.getStateSprite().setPosition(width / 2 - 200 - entity.second * 140, 400);
+        entity.first.getStateSprite().setPosition(width / 2 - 200 - entity.second * 140, 500);
     }
     // Enemy team
     for (auto &entity : _enemyTeam.getEntities()) {
-        entity.first.getStateSprite().setPosition(width - 140 * 4 + entity.second * 140, 400);
+        entity.first.getStateSprite().setPosition(width - 140 * 4 + entity.second * 140, 500);
     }
+
+    // Entity first turn
+    calculateInitiative();
+    nextTurn();
 
     // Background
     _background.initialize("assets/background/fight_background.png", "fight");
     _background.addState("assets/background/camp_background.png", "camp");
     _background.setOrigin(fg::Origin::CENTER);
-    _background.setPosition(width / 2, height / 2 - 300);
-
+    _background.setPosition(width / 2, height / 2 - 200);
 }
 
 void fg::GameScene::event(sf::RenderWindow &window, sf::Event &event)
@@ -88,6 +91,7 @@ void fg::GameScene::event(sf::RenderWindow &window, sf::Event &event)
                 entity.first.getStateSprite().changeState("camp");
         }
     }
+    _hud.event(window, event);
 }
 
 void fg::GameScene::update(sf::RenderWindow &window)
@@ -109,6 +113,7 @@ void fg::GameScene::draw(sf::RenderWindow &window)
     for (auto &entity : _enemyTeam.getEntities()) {
         entity.first.draw(window);
     }
+    _hud.draw(window);
 }
 
 void fg::GameScene::save()
@@ -175,7 +180,7 @@ void fg::GameScene::nextTurn()
     _currentEntityTurn = _initiativeOrder[0].second;
     _initiativeOrder.erase(_initiativeOrder.begin());
     changeSpriteState(_currentEntityTurn, "combat");
-
+    _hud.setHudForEntity(_currentEntityTurn < 4 ? _playerTeam.getEntity(_currentEntityTurn) : _enemyTeam.getEntity(_currentEntityTurn - 4));
 }
 
 void fg::GameScene::changeSpriteState(int pos, std::string stateName)
