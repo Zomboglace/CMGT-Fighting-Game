@@ -46,6 +46,11 @@ int fg::Ability::getLevel()
     return _level;
 }
 
+std::function<void(fg::Entity &)> &fg::Ability::getLambda()
+{
+    return _lambda;
+}
+
 void fg::Ability::setName(const std::string &name)
 {
     _name = name;

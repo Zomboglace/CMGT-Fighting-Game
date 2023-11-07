@@ -27,6 +27,7 @@ namespace fg
             int getPrecision();
             int getCritical();
             int getLevel();
+            std::function<void(fg::Entity &)> &getLambda();
 
             void setName(const std::string &name);
             void setDescription(const std::string &description);
