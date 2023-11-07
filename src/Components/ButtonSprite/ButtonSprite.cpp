@@ -19,7 +19,8 @@ fg::ButtonSprite::ButtonSprite()
 
 void fg::ButtonSprite::initialize(std::string filepath)
 {
-    _buttonTexture.loadFromFile(filepath);
+    if (!_buttonTexture.loadFromFile(filepath))
+        std::cout << "Error loading button texture" << std::endl;
     _buttonSprite.setTexture(_buttonTexture);
 }
 
