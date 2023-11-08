@@ -43,6 +43,11 @@ void fg::RectSprite::changeFrame(int frame)
         _rectSprite.setTextureRect(sf::IntRect(_currentFrame * _sizeX, 0, _sizeX, _sizeY));
 }
 
+void fg::RectSprite::draw(sf::RenderWindow &window)
+{
+    window.draw(_rectSprite);
+}
+
 void fg::RectSprite::setPosition(float x, float y)
 {
     _rectSprite.setPosition(x, y);

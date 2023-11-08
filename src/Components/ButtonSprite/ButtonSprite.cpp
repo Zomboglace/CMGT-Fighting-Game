@@ -127,6 +127,13 @@ void fg::ButtonSprite::hover(sf::Event &event)
     }
 }
 
+void fg::ButtonSprite::draw(sf::RenderWindow &window)
+{
+    window.draw(_buttonSprite);
+    if (_text.getText().getString() != "")
+        _text.draw(window);
+}
+
 void fg::ButtonSprite::setPosition(float x, float y)
 {
     _buttonSprite.setPosition(x, y);

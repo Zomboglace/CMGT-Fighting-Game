@@ -22,6 +22,8 @@ namespace fg
             void initialize(std::string filepath, float sizeX, float sizeY, int frames, int currentFrame, bool isVertical = false);
             void changeFrame(int frame);
 
+            void draw(sf::RenderWindow &window);
+
             void setPosition(float x, float y);
             void scale(float x, float y);
 

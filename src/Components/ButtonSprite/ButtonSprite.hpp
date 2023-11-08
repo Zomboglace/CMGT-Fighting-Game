@@ -32,6 +32,8 @@ namespace fg
             void click(sf::Event &event);
             void hover(sf::Event &event);
 
+            void draw(sf::RenderWindow &window);
+
             void setPosition(float x, float y);
             void scale(float x, float y);
             void setVolume(float volume);

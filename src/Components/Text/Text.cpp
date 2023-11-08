@@ -42,6 +42,11 @@ void fg::Text::initialize(sf::Sprite &object, std::string fontFilepath, std::str
     setPositionRelativeToObject(object, x, y);
 }
 
+void fg::Text::draw(sf::RenderWindow &window)
+{
+    window.draw(_text);
+}
+
 void fg::Text::setPosition(float x, float y)
 {
     _text.setPosition(x, y);

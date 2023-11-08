@@ -477,65 +477,47 @@ void fg::MainMenuScene::draw(sf::RenderWindow &window)
 {
     window.draw(_animatedBackground.getSprite());
     if (_state == MainMenuSceneState::Start) {
-        window.draw(_buttonStart.getSprite());
-        window.draw(_buttonStart.getText());
-        window.draw(_buttonOption.getSprite());
-        window.draw(_buttonOption.getText());
-        window.draw(_buttonQuit.getSprite());
-        window.draw(_buttonQuit.getText());
+        _buttonStart.draw(window);
+        _buttonOption.draw(window);
+        _buttonQuit.draw(window);
     }
     if (_state == MainMenuSceneState::Option) {
-        window.draw(_textMusic.getText());
-        window.draw(_textSound.getText());
-        window.draw(_buttonOptionBack.getSprite());
-        window.draw(_buttonOptionBack.getText());
-        window.draw(_buttonOptionMusicDown.getSprite());
-        window.draw(_buttonOptionMusicUp.getSprite());
-        window.draw(_buttonOptionSoundDown.getSprite());
-        window.draw(_buttonOptionSoundUp.getSprite());
-        window.draw(_rectMusicLevel.getSprite());
-        window.draw(_rectSoundLevel.getSprite());
+        _textMusic.draw(window);
+        _textSound.draw(window);
+        _buttonOptionBack.draw(window);
+        _buttonOptionMusicDown.draw(window);
+        _buttonOptionMusicUp.draw(window);
+        _buttonOptionSoundDown.draw(window);
+        _buttonOptionSoundUp.draw(window);
+        _rectMusicLevel.draw(window);
+        _rectSoundLevel.draw(window);
     }
     if (_state == MainMenuSceneState::Play) {
-        window.draw(_buttonSave1.getSprite());
-        window.draw(_buttonSave1.getText());
-        window.draw(_buttonSave2.getSprite());
-        window.draw(_buttonSave2.getText());
-        window.draw(_buttonSave3.getSprite());
-        window.draw(_buttonSave3.getText());
+        _buttonSave1.draw(window);
+        _buttonSave2.draw(window);
+        _buttonSave3.draw(window);
         if (_save1) {
-            window.draw(_buttonDelete1.getSprite());
-            window.draw(_buttonDelete1.getText());
+            _buttonDelete1.draw(window);
         }
         if (_save2) {
-            window.draw(_buttonDelete2.getSprite());
-            window.draw(_buttonDelete2.getText());
+            _buttonDelete2.draw(window);
         }
         if (_save3) {
-            window.draw(_buttonDelete3.getSprite());
-            window.draw(_buttonDelete3.getText());
+            _buttonDelete3.draw(window);
         }
-        window.draw(_buttonPlayBack.getSprite());
-        window.draw(_buttonPlayBack.getText());
+        _buttonPlayBack.draw(window);
     }
     if (_state == MainMenuSceneState::NewGame) {
-        window.draw(_buttonNewGameEasy.getSprite());
-        window.draw(_buttonNewGameEasy.getText());
-        window.draw(_buttonNewGameNormal.getSprite());
-        window.draw(_buttonNewGameNormal.getText());
-        window.draw(_buttonNewGameHard.getSprite());
-        window.draw(_buttonNewGameHard.getText());
-        window.draw(_buttonNewGameInsane.getSprite());
-        window.draw(_buttonNewGameInsane.getText());
-        window.draw(_buttonNewGameBack.getSprite());
-        window.draw(_buttonNewGameBack.getText());
+        _buttonNewGameEasy.draw(window);
+        _buttonNewGameNormal.draw(window);
+        _buttonNewGameHard.draw(window);
+        _buttonNewGameInsane.draw(window);
+        _buttonNewGameBack.draw(window);
     }
     if (_state == MainMenuSceneState::CharacterSelection) {
         _dragSpriteManager.draw(window);
-        window.draw(_buttonCharacterSelectionStart.getSprite());
-        window.draw(_buttonCharacterSelectionStart.getText());
-        window.draw(_buttonCharacterSelectionBack.getSprite());
-        window.draw(_buttonCharacterSelectionBack.getText());
+        _buttonCharacterSelectionStart.draw(window);
+        _buttonCharacterSelectionBack.draw(window);
     }
 }
 
