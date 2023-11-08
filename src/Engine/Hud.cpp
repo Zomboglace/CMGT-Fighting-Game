@@ -8,7 +8,7 @@
 #include "Hud.hpp"
 
 fg::Hud::Hud()
-    : 
+    : _state(GameSceneState::FIGHT),
     _entitySelected(false)
 {
     initialize();
@@ -47,29 +47,29 @@ void fg::Hud::initialize()
 
 void fg::Hud::event(sf::RenderWindow &window, sf::Event &event)
 {
-    // if (_state == GameSceneState::FIGHT)
-    // {
+    if (_state == GameSceneState::FIGHT)
+    {
         _attack1.event(window, event);
         _attack2.event(window, event);
         _attack3.event(window, event);
         _attack4.event(window, event);
         _switchPosition.event(window, event);
         _skip.event(window, event);
-    // }
+    }
 }
 
 void fg::Hud::update(sf::RenderWindow &window)
 {
-    // if (_state == GameSceneState::FIGHT)
-    // {
+    if (_state == GameSceneState::FIGHT)
+    {
 
-    // }
+    }
 }
 
 void fg::Hud::draw(sf::RenderWindow &window)
 {
-    // if (_state == GameSceneState::FIGHT)
-    // {
+    if (_state == GameSceneState::FIGHT)
+    {
         _background.draw(window);
         window.draw(_attack1.getSprite());
         window.draw(_attack1.getText());
@@ -83,7 +83,7 @@ void fg::Hud::draw(sf::RenderWindow &window)
         window.draw(_switchPosition.getText());
         window.draw(_skip.getSprite());
         window.draw(_skip.getText());
-    // }
+    }
 }
 
 void fg::Hud::setHudForEntity(Entity &entity)
@@ -98,7 +98,7 @@ void fg::Hud::setHudForEntity(Entity &entity)
     _skip.setText(true, "assets/arial.ttf", "Skip turn", 20, sf::Color::White);
 }
 
-// void fg::Hud::changeScene(GameSceneState state)
-// {
-//     _state = state;
-// }
+void fg::Hud::changeScene(GameSceneState state)
+{
+    _state = state;
+}

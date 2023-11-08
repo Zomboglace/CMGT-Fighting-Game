@@ -14,15 +14,15 @@
 
 namespace fg
 {
-    // enum class GameSceneState
-    // {
-    //     FIGHT,
-    //     CAMP,
-    //     GAMEOVER,
-    //     WIN,
-    //     EXIT,
-    //     PAUSE
-    // };
+    enum class GameSceneState
+    {
+        FIGHT,
+        CAMP,
+        GAMEOVER,
+        WIN,
+        EXIT,
+        PAUSE
+    };
     class Hud
     {
         public:
@@ -36,11 +36,11 @@ namespace fg
             void draw(sf::RenderWindow &window);
 
             void setHudForEntity(Entity &entity);
-            // void changeScene(GameSceneState state);
+            void changeScene(GameSceneState state);
 
 
         private:
-            // GameSceneState _state;
+            GameSceneState _state;
 
             // Fight information
             fg::Rectangle _background;
