@@ -40,15 +40,24 @@ void fg::GameScene::initialize()
         entity.first.getStateSprite().setPosition(width - 140 * 4 + entity.second * 140, 500);
     }
 
-    // Entity first turn
-    calculateInitiative();
-    nextTurn();
-
     // Background
     _background.initialize("assets/background/fight_background.png", "fight");
     _background.addState("assets/background/camp_background.png", "camp");
     _background.setOrigin(fg::Origin::CENTER);
     _background.setPosition(width / 2, height / 2 - 200);
+
+
+    // Entity first turn
+    _hud.changeScene(_state);
+    if (_state == fg::GameSceneState::FIGHT) {
+        calculateInitiative();
+        nextTurn();
+    }
+    if (_state == fg::GameSceneState::CAMP) {
+        _background.changeState("camp");
+        for (auto &entity : _playerTeam.getEntities())
+            entity.first.getStateSprite().changeState("camp");
+    }
 }
 
 void fg::GameScene::event(sf::RenderWindow &window, sf::Event &event)
@@ -58,34 +67,41 @@ void fg::GameScene::event(sf::RenderWindow &window, sf::Event &event)
             _sceneManager.switchToScene("MainMenuScene");
         }
         if (event.key.code == sf::Keyboard::Space) {
+            _actionLog.addLog("Test log Space");
             _playerTeam.swapEntityForward(1);
             _playerTeam.swapEntityForward(2);
             _playerTeam.swapEntityForward(3);
         }
         if (event.key.code == sf::Keyboard::A) {
+            _actionLog.addLog("Test log A");
             _playerTeam.swapEntityBackward(2);
             _playerTeam.swapEntityBackward(1);
             _playerTeam.swapEntityBackward(0);
         }
         if (event.key.code == sf::Keyboard::Z) {
+            _actionLog.addLog("Test log Z");
             nextTurn();
         }
         if (event.key.code == sf::Keyboard::Numpad1) {
+            _actionLog.addLog("Test log 1");
             _background.changeState("fight");
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("idle");
         }
         if (event.key.code == sf::Keyboard::Numpad2) {
+            _actionLog.addLog("Test log 2");
             _background.changeState("fight");
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("combat");
         }
         if (event.key.code == sf::Keyboard::Numpad3) {
+            _actionLog.addLog("Test log 3");
             _background.changeState("fight");
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("defend");
         }
         if (event.key.code == sf::Keyboard::Numpad4) {
+            _actionLog.addLog("Test log 4");
             _background.changeState("camp");
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("camp");
@@ -110,10 +126,13 @@ void fg::GameScene::draw(sf::RenderWindow &window)
     for (auto &entity : _playerTeam.getEntities()) {
         entity.first.draw(window);
     }
-    for (auto &entity : _enemyTeam.getEntities()) {
-        entity.first.draw(window);
+    if (_state == fg::GameSceneState::FIGHT) {
+        for (auto &entity : _enemyTeam.getEntities()) {
+            entity.first.draw(window);
+        }
     }
     _hud.draw(window);
+    _actionLog.draw(window);
 }
 
 void fg::GameScene::save()

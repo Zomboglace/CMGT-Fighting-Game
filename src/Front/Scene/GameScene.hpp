@@ -14,19 +14,10 @@
 #include "Team.hpp"
 #include "Entity.hpp"
 #include "Hud.hpp"
+#include "ActionLog.hpp"
 
 namespace fg
 {
-    enum class GameSceneState
-    {
-        FIGHT,
-        CAMP,
-        GAMEOVER,
-        WIN,
-        EXIT,
-        PAUSE
-    };
-
     class GameScene : public Scene
     {
         public:
@@ -71,6 +62,8 @@ namespace fg
             std::vector<std::pair<int, int>> _initiativeOrder;
             int _currentEntityTurn;
             fg::Hud _hud;
+            fg::ActionLog _actionLog;
+
 
             
             // Camp
