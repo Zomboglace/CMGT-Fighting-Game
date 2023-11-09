@@ -16,7 +16,7 @@ void fg::ActionLog::initialize()
 {
     _background.initialize(sf::Color::Red, sf::Color::Black);
     _background.setPosition(860, 630);
-    _background.setSize(320, 170);
+    _background.setSize(420, 170);
     _log.reserve(5);
 }
 
