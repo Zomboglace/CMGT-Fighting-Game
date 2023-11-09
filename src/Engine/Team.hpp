@@ -21,9 +21,9 @@ namespace fg
             Team(const std::string &filepath, bool isPlayerTeam = false);
             ~Team() = default;
 
-            // void generateEnnemyTeam(int stage, int difficulty);
-            // void generateRandomTeam(int size, int level = 0);
-            // void generateRandomEntity(int level = 0);
+            void update();
+            void draw(sf::RenderWindow &window);
+            void event(sf::RenderWindow &window, sf::Event &event);
 
             void setRandomPosition();
             void swapEntitiesPosition(int pos1, int pos2);

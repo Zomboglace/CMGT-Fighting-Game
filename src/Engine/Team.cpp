@@ -14,23 +14,23 @@ fg::Team::Team(const std::string &filepath, bool isPlayerTeam)
     load();
 }
 
-// void fg::Team::generateEnnemyTeam(int stage, int difficulty)
-// {
+void fg::Team::update()
+{
+    for (auto &entity : _entities)
+        entity.first.update();
+}
 
-// }
+void fg::Team::draw(sf::RenderWindow &window)
+{
+    for (auto &entity : _entities)
+        entity.first.draw(window);
+}
 
-// void fg::Team::generateRandomTeam(int size, int level)
-// {
-//     for (int i = 0; i < size; i++)
-//         generateRandomEntity(level);
-// }
-
-// void fg::Team::generateRandomEntity(int level)
-// {
-//     fg::Entity entity("");
-//     entity.generateEntity(level);
-//     addEntity(entity.getFilepath());
-// }
+void fg::Team::event(sf::RenderWindow &window, sf::Event &event)
+{
+    for (auto &entity : _entities)
+        entity.first.event(window, event);
+}
 
 void fg::Team::setRandomPosition()
 {
