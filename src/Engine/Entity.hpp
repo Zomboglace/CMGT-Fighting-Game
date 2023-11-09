@@ -43,7 +43,7 @@ namespace fg
 
             void update();
             void draw(sf::RenderWindow &window);
-            void event(sf::Event &event);
+            void event(sf::RenderWindow &window, sf::Event &event);
 
             void save();
             void save(const std::string &filepath);
@@ -94,7 +94,7 @@ namespace fg
             fg::Class _className;
             fg::AbilityList _abilityList;
             fg::HealthBar _healthBar;
-            fg::HealthBar _sanityBar;
+            // fg::HealthBar _sanityBar;
             
             int _level;
             int _health;

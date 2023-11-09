@@ -18,29 +18,29 @@ void fg::Entity::initialize()
     load();
     createAbility();
 
-    _healthBar.initialize(sf::Color::White, sf::Color::Red, sf::Color::Black);
-    _healthBar.setMaxHealth(_maxHealth);
-    _healthBar.setHealth(_health);
-
-    _sanityBar.initialize(sf::Color::White, sf::Color::White, sf::Color::Black);
-    _sanityBar.setMaxHealth(100);
-    _sanityBar.setHealth(_sanity);
-
+    _healthBar.initialize(_health, _maxHealth, sf::Color::White, sf::Color::Red, sf::Color::Black);
+    // _sanityBar.initialize(_sanity, 100, sf::Color::White, sf::Color::White, sf::Color::Black);
 }
 
 void fg::Entity::update()
 {
     _healthBar.setPosition(_sprite.getSprite().getPosition().x, _sprite.getSprite().getPosition().y + 40);
     _healthBar.update();
-    _sanityBar.setPosition(_sprite.getSprite().getPosition().x, _sprite.getSprite().getPosition().y + 70);
-    _sanityBar.update();
+    // _sanityBar.setPosition(_sprite.getSprite().getPosition().x, _sprite.getSprite().getPosition().y + 70);
+    // _sanityBar.update();
 }
 
 void fg::Entity::draw(sf::RenderWindow &window)
 {
     window.draw(_sprite.getSprite());
     _healthBar.draw(window);
-    _sanityBar.draw(window);
+    // _sanityBar.draw(window);
+}
+
+void fg::Entity::event(sf::RenderWindow &window, sf::Event &event)
+{
+    _healthBar.event(window, event);
+    // _sanityBar.event(window, event);
 }
 
 void fg::Entity::save()
