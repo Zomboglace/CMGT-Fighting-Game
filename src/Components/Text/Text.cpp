@@ -16,12 +16,14 @@ fg::Text::Text(sf::Sprite &object)
 
 void fg::Text::initialize(std::string fontFilepath, std::string textString, int size, sf::Color color, float x, float y)
 {
-    if (!_font.loadFromFile(fontFilepath))
+    sf::Font font;
+    if (!font.loadFromFile(fontFilepath))
     {
         std::cout << "Error loading font" << std::endl;
     }
+    _font = std::make_shared<sf::Font>(font);
 
-    _text.setFont(_font);
+    _text.setFont(*_font);
     _text.setString(textString);
     _text.setCharacterSize(size);
     _text.setFillColor(color);
@@ -30,12 +32,14 @@ void fg::Text::initialize(std::string fontFilepath, std::string textString, int 
 
 void fg::Text::initialize(sf::Sprite &object, std::string fontFilepath, std::string textString, int size, sf::Color color, float x, float y)
 {
-    if (!_font.loadFromFile(fontFilepath))
+    sf::Font font;
+    if (!font.loadFromFile(fontFilepath))
     {
         std::cout << "Error loading font" << std::endl;
     }
+    _font = std::make_shared<sf::Font>(font);
 
-    _text.setFont(_font);
+    _text.setFont(*_font);
     _text.setString(textString);
     _text.setCharacterSize(size);
     _text.setFillColor(color);
@@ -63,6 +67,16 @@ void fg::Text::setPositionRelativeToObject(sf::Sprite &object, float x, float y)
 
     // text in the middle of the object
     _text.setPosition(object.getPosition().x + (object.getGlobalBounds().width / 2) - (_text.getGlobalBounds().width / 2) + x, object.getPosition().y + (object.getGlobalBounds().height / 2) - (_text.getGlobalBounds().height / 2) + y);
+}
+
+void fg::Text::setText(std::string textString)
+{
+    _text.setString(textString);
+}
+
+std::shared_ptr<sf::Font> fg::Text::getFont()
+{
+    return _font;
 }
 
 sf::Text &fg::Text::getText()

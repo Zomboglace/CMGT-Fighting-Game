@@ -8,6 +8,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 namespace fg
@@ -28,10 +29,11 @@ namespace fg
             void setPositionRelativeToObject(sf::Sprite &object, float x, float y);
             void setText(std::string textString);
 
+            std::shared_ptr<sf::Font> getFont();
             sf::Text &getText();
 
         private:
-            sf::Font _font;
+            std::shared_ptr<sf::Font> _font;
             sf::Text _text;
             sf::Sprite _linkedObject;
     };
