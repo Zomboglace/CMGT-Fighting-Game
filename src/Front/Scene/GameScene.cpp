@@ -62,6 +62,9 @@ void fg::GameScene::initialize()
 
 void fg::GameScene::event(sf::RenderWindow &window, sf::Event &event)
 {
+    _playerTeam.event(window, event);
+    if (_state == fg::GameSceneState::FIGHT)
+        _enemyTeam.event(window, event);
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             _sceneManager.switchToScene("MainMenuScene");
@@ -85,24 +88,28 @@ void fg::GameScene::event(sf::RenderWindow &window, sf::Event &event)
         if (event.key.code == sf::Keyboard::Numpad1) {
             _actionLog.addLog("Test log 1");
             _background.changeState("fight");
+            _state = fg::GameSceneState::FIGHT;
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("idle");
         }
         if (event.key.code == sf::Keyboard::Numpad2) {
             _actionLog.addLog("Test log 2");
             _background.changeState("fight");
+            _state = fg::GameSceneState::FIGHT;
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("combat");
         }
         if (event.key.code == sf::Keyboard::Numpad3) {
             _actionLog.addLog("Test log 3");
             _background.changeState("fight");
+            _state = fg::GameSceneState::FIGHT;
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("defend");
         }
         if (event.key.code == sf::Keyboard::Numpad4) {
             _actionLog.addLog("Test log 4");
             _background.changeState("camp");
+            _state = fg::GameSceneState::CAMP;
             for (auto &entity : _playerTeam.getEntities())
                 entity.first.getStateSprite().changeState("camp");
         }
@@ -123,13 +130,9 @@ void fg::GameScene::update(sf::RenderWindow &window)
 void fg::GameScene::draw(sf::RenderWindow &window)
 {
     window.draw(_background.getSprite());
-    for (auto &entity : _playerTeam.getEntities()) {
-        entity.first.draw(window);
-    }
+    _playerTeam.draw(window);
     if (_state == fg::GameSceneState::FIGHT) {
-        for (auto &entity : _enemyTeam.getEntities()) {
-            entity.first.draw(window);
-        }
+        _enemyTeam.draw(window);
     }
     _hud.draw(window);
     _actionLog.draw(window);
