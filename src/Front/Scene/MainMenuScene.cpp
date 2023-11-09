@@ -630,7 +630,7 @@ void fg::MainMenuScene::createNewGame()
     for (int i = 0; i < 2; i++) {
         try {
             fg::FileWriter fileWriterM;
-            fileWriterM.load("save/class/cutthroat.cmgt");
+            fileWriterM.load("save/class/fusilier.cmgt");
             fileWriterM.addData("name", fileWriterM.getData<std::string>("name"));
             fileWriterM.addData("class", fileWriterM.getData<int>("class"));
             fileWriterM.addData("level", fileWriterM.getData<int>("level"));
@@ -735,6 +735,10 @@ void fg::MainMenuScene::generateCrusaderTemplate()
         fileWriter.addData("attack2", "assets/class/Crusader/crusader.sprite.attack_stun.png");
         fileWriter.addData("attack3", "assets/class/Crusader/crusader.sprite.attack_charge.png");
         fileWriter.addData("attack4", "assets/class/Crusader/crusader.sprite.attack_heal.png");
+        fileWriter.addData("attack1Level", 0);
+        fileWriter.addData("attack2Level", 0);
+        fileWriter.addData("attack3Level", 0);
+        fileWriter.addData("attack4Level", 0);
         fileWriter.save("save/class/crusader.cmgt");
     } catch (std::exception &e) {
         std::cout << RED << e.what() << RESET << std::endl;
@@ -760,6 +764,10 @@ void fg::MainMenuScene::generateCutthroatTemplate()
         fileWriter.addData("attack2", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.attack_uppercut.png");
         fileWriter.addData("attack3", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.attack_lunge.png");
         fileWriter.addData("attack4", "assets/monster/Brigand_cutthroat/brigand_cutthroat.sprite.attack_lunge.png");
+        fileWriter.addData("attack1Level", 0);
+        fileWriter.addData("attack2Level", 0);
+        fileWriter.addData("attack3Level", 0);
+        fileWriter.addData("attack4Level", 0);
         fileWriter.save("save/class/cutthroat.cmgt");
     } catch (std::exception &e) {
         std::cout << RED << e.what() << RESET << std::endl;
@@ -785,6 +793,10 @@ void fg::MainMenuScene::generateFusilierTemplate()
         fileWriter.addData("attack2", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.attack_ranged.png");
         fileWriter.addData("attack3", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.attack_ranged.png");
         fileWriter.addData("attack4", "assets/monster/Brigand_fusilier/brigand_fusilier.sprite.attack_ranged.png");
+        fileWriter.addData("attack1Level", 0);
+        fileWriter.addData("attack2Level", 0);
+        fileWriter.addData("attack3Level", 0);
+        fileWriter.addData("attack4Level", 0);
         fileWriter.save("save/class/fusilier.cmgt");
     } catch (std::exception &e) {
         std::cout << RED << e.what() << RESET << std::endl;
