@@ -37,6 +37,8 @@ include_directories(
 	${PROJECT_ROOT_DIR}src/Components/RandomGenerator
 	${PROJECT_ROOT_DIR}src/Components/FillShape
 	${PROJECT_ROOT_DIR}src/Components/Rectangle
+	${PROJECT_ROOT_DIR}src/Components/Origin
+	${PROJECT_ROOT_DIR}src/Components/TextBubbleShape
 	${PROJECT_ROOT_DIR}src/Engine
 	${PROJECT_ROOT_DIR}src/Front/Game
 	${PROJECT_ROOT_DIR}src/Front/Scene/
