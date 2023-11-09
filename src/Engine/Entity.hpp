@@ -102,5 +102,10 @@ namespace fg
             int _initiative;
             int _sanity;
 
+            int _attack1Level;
+            int _attack2Level;
+            int _attack3Level;
+            int _attack4Level;
+
     };
 };

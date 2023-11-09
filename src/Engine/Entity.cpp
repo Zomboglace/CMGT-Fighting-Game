@@ -61,6 +61,10 @@ void fg::Entity::save()
     file.addData("attack2", "assets/class/Crusader/crusader.sprite.attack_stun.png");
     file.addData("attack3", "assets/class/Crusader/crusader.sprite.attack_charge.png");
     file.addData("attack4", "assets/class/Crusader/crusader.sprite.attack_heal.png");
+    file.addData("attack1Level", std::to_string(_abilityList.getAbility(1).getLevel()));
+    file.addData("attack2Level", std::to_string(_abilityList.getAbility(2).getLevel()));
+    file.addData("attack3Level", std::to_string(_abilityList.getAbility(3).getLevel()));
+    file.addData("attack4Level", std::to_string(_abilityList.getAbility(4).getLevel()));
     file.save();
 }
 
@@ -91,6 +95,11 @@ void fg::Entity::load()
     _sprite.addState(file.getData<std::string>("attack2"), "attack2");
     _sprite.addState(file.getData<std::string>("attack3"), "attack3");
     _sprite.addState(file.getData<std::string>("attack4"), "attack4");
+
+    _attack1Level = file.getData<int>("attack1Level");
+    _attack2Level = file.getData<int>("attack2Level");
+    _attack3Level = file.getData<int>("attack3Level");
+    _attack4Level = file.getData<int>("attack4Level");
 
     std::cout << GREEN << "Entity loaded!" << RESET << std::endl;
 }
@@ -137,82 +146,119 @@ void fg::Entity::createAbility()
 void fg::Entity::crusaderAbility()
 {
     fg::Ability ability;
-    ability.initialize("Sword Attack", "Attack an enemy with your sword", 90, 20, [](fg::Entity &entity) {
-        int abilityLevel = entity.getAbility(1).getLevel();
-        int damage = fg::Random::getRandomNumber(3, 6) + abilityLevel * 2;
-        
+    ability.initialize("Sword Attack", "Attack an enemy with your sword", 3, 6, 2, 90, 10, 20, 10, [](fg::Entity &caster, fg::Entity &target) {
+        int abilityLevel = caster.getAbility(1).getLevel();
+        int minDamage = caster.getAbility(1).getMinDamage() + abilityLevel * caster.getAbility(1).getDamageBoostPerLevel();
+        int maxDamage = caster.getAbility(1).getMaxDamage() + abilityLevel * caster.getAbility(1).getDamageBoostPerLevel();
+        int damage = fg::Random::getRandomNumber(minDamage, maxDamage);
         int critical = 100 - fg::Random::getRandomNumber(0, 100);
-        if (critical <= entity.getAbility(1).getCritical() + abilityLevel * 10) {
-            std::cout << "Critical hit!" << std::endl;
-            entity.setHealth(entity.getHealth() - damage * 2);
-            return;
-        }
+        int criticalChance = caster.getAbility(1).getCritical() + abilityLevel * caster.getAbility(1).getCriticalBoostPerLevel();
         int precision = 100 - fg::Random::getRandomNumber(0, 100);
-        if (precision > entity.getAbility(1).getPrecision() + abilityLevel * 10) {
-            std::cout << "Missed!" << std::endl;
-            return;
+        int precisionChance = caster.getAbility(1).getPrecision() + abilityLevel * caster.getAbility(1).getPrecisionBoostPerLevel();
+
+        std::string log = caster.getName() + " used " + caster.getAbility(1).getName() + " on " + target.getName();
+
+        if (critical <= criticalChance) {
+            target.setHealth(target.getHealth() - damage * 2);
+            log.append(" did a critical hit and dealt " + std::to_string(damage * 2) + " damage!");
+            return log;
         }
-        entity.setHealth(entity.getHealth() - damage);
+        if (precision > precisionChance) {
+            log.append(" and missed!");
+            return log;
+        }
+        target.setHealth(target.getHealth() - damage);
+        log.append(" and dealt " + std::to_string(damage) + " damage!");
+        return log;
     });
-    ability.setLevel(0);
+    ability.setLevel(_attack1Level);
     _abilityList.addAbility(1, ability);
 
     fg::Ability ability2;
-    ability2.initialize("Stun", "Stun an enemy with the guard of your sword", 80, 10, [](fg::Entity &entity) {
-        int abilityLevel = entity.getAbility(2).getLevel();
-        int damage = fg::Random::getRandomNumber(1, 3) + abilityLevel * 1;
-        
+    ability2.initialize("Stun", "Stun an enemy with the guard of your sword", 1, 3, 1, 80, 5, 10, 10, [](fg::Entity &caster, fg::Entity &target) {
+        int abilityLevel = caster.getAbility(2).getLevel();
+        int minDamage = caster.getAbility(2).getMinDamage() + abilityLevel * caster.getAbility(2).getDamageBoostPerLevel();
+        int maxDamage = caster.getAbility(2).getMaxDamage() + abilityLevel * caster.getAbility(2).getDamageBoostPerLevel();
+        int damage = fg::Random::getRandomNumber(minDamage, maxDamage);
         int critical = 100 - fg::Random::getRandomNumber(0, 100);
-        if (critical <= entity.getAbility(2).getCritical() + abilityLevel * 10) {
-            std::cout << "Critical hit!" << std::endl;
-            entity.setHealth(entity.getHealth() - damage * 2);
-            return;
-        }
+        int criticalChance = caster.getAbility(2).getCritical() + abilityLevel * caster.getAbility(2).getCriticalBoostPerLevel();
         int precision = 100 - fg::Random::getRandomNumber(0, 100);
-        if (precision > entity.getAbility(2).getPrecision() + abilityLevel * 5) {
-            std::cout << "Missed!" << std::endl;
-            return;
+        int precisionChance = caster.getAbility(2).getPrecision() + abilityLevel * caster.getAbility(2).getPrecisionBoostPerLevel();
+
+        std::string log = caster.getName() + " used " + caster.getAbility(2).getName() + " on " + target.getName();
+
+        if (critical <= criticalChance) {
+            target.setHealth(target.getHealth() - damage * 2);
+            log.append(" did a critical hit and dealt " + std::to_string(damage * 2) + " damage!");
+            return log;
         }
-        entity.setHealth(entity.getHealth() - damage);
+        if (precision > precisionChance) {
+            log.append(" and missed!");
+            return log;
+        }
+        target.setHealth(target.getHealth() - damage);
+        log.append(" and dealt " + std::to_string(damage) + " damage!");
+        return log;
     });
-    ability2.setLevel(0);
+    ability2.setLevel(_attack2Level);
     _abilityList.addAbility(2, ability2);
 
     fg::Ability ability3;
-    ability3.initialize("Charge", "Charge an enemy with your sword", 60, 50, [](fg::Entity &entity) {
-        int abilityLevel = entity.getAbility(3).getLevel();
-        int damage = fg::Random::getRandomNumber(5, 8) + abilityLevel * 3;
-        
+    ability3.initialize("Charge", "Charge an enemy with your sword", 5, 8, 3, 60, 10, 50, 10, [](fg::Entity &caster, fg::Entity &target) {
+        int abilityLevel = caster.getAbility(3).getLevel();
+        int minDamage = caster.getAbility(3).getMinDamage() + abilityLevel * caster.getAbility(3).getDamageBoostPerLevel();
+        int maxDamage = caster.getAbility(3).getMaxDamage() + abilityLevel * caster.getAbility(3).getDamageBoostPerLevel();
+        int damage = fg::Random::getRandomNumber(minDamage, maxDamage);
         int critical = 100 - fg::Random::getRandomNumber(0, 100);
-        if (critical <= entity.getAbility(3).getCritical() + abilityLevel * 10) {
-            std::cout << "Critical hit!" << std::endl;
-            entity.setHealth(entity.getHealth() - damage * 2);
-            return;
-        }
+        int criticalChance = caster.getAbility(3).getCritical() + abilityLevel * caster.getAbility(3).getCriticalBoostPerLevel();
         int precision = 100 - fg::Random::getRandomNumber(0, 100);
-        if (precision > entity.getAbility(3).getPrecision() + abilityLevel * 10) {
-            std::cout << "Missed!" << std::endl;
-            return;
+        int precisionChance = caster.getAbility(3).getPrecision() + abilityLevel * caster.getAbility(3).getPrecisionBoostPerLevel();
+
+        std::string log = caster.getName() + " used " + caster.getAbility(3).getName() + " on " + target.getName();
+
+        if (critical <= criticalChance) {
+            target.setHealth(target.getHealth() - damage * 2);
+            log.append(" did a critical hit and dealt " + std::to_string(damage * 2) + " damage!");
+            return log;
         }
-        entity.setHealth(entity.getHealth() - damage);
+        if (precision > precisionChance) {
+            log.append(" and missed!");
+            return log;
+        }
+        target.setHealth(target.getHealth() - damage);
+        log.append(" and dealt " + std::to_string(damage) + " damage!");
+        return log;
     });
-    ability3.setLevel(0);
+    ability3.setLevel(_attack3Level);
     _abilityList.addAbility(3, ability3);
 
     fg::Ability ability4;
-    ability4.initialize("Courage", "Give hope to you and your allies", 0, 30, [](fg::Entity &entity) {
-        int abilityLevel = entity.getAbility(4).getLevel();
-        int heal = fg::Random::getRandomNumber(10, 20) + abilityLevel * 10;
-        
+    ability4.initialize("Courage", "Give hope to you and your ally", 4, 7, 3, 0, 0, 30, 10, [](fg::Entity &caster, fg::Entity &target) {
+        int abilityLevel = caster.getAbility(4).getLevel();
+        int minHeal = caster.getAbility(4).getMinDamage() + abilityLevel * caster.getAbility(4).getDamageBoostPerLevel();
+        int maxHeal = caster.getAbility(4).getMaxDamage() + abilityLevel * caster.getAbility(4).getDamageBoostPerLevel();
+        int heal = fg::Random::getRandomNumber(minHeal, maxHeal);
         int critical = 100 - fg::Random::getRandomNumber(0, 100);
-        if (critical <= entity.getAbility(4).getCritical() + abilityLevel * 10) {
-            std::cout << "Critical heal!" << std::endl;
-            entity.setSanity(entity.getSanity() + heal * 2);
-            return;
+        int criticalChance = caster.getAbility(4).getCritical() + abilityLevel * caster.getAbility(4).getCriticalBoostPerLevel();
+        
+        std::string log = caster.getName() + " used " + caster.getAbility(4).getName() + " on " + target.getName();
+
+        if (critical <= criticalChance) {
+            caster.setHealth(caster.getHealth() + heal * 2);
+            caster.setSanity(caster.getSanity() + heal * 2);
+            target.setHealth(target.getHealth() + heal * 2);
+            target.setSanity(target.getSanity() + heal * 2);
+            log.append(" did a critical heal and healed " + std::to_string(heal * 2) + " health and sanity to the both of them!");
+            return log;
         }
-        entity.setSanity(entity.getSanity() + heal);
+        caster.setHealth(caster.getHealth() + heal);
+        caster.setSanity(caster.getSanity() + heal);
+        target.setSanity(target.getSanity() + heal);
+        target.setHealth(target.getHealth() + heal);
+        log.append(" and healed " + std::to_string(heal) + " health and sanity to the both of them!");
+        return log;
     });
-    ability4.setLevel(0);
+    ability4.setLevel(_attack4Level);
     _abilityList.addAbility(4, ability4);
 }
 
@@ -311,12 +357,15 @@ void fg::Entity::setHealth(int health)
         _health = _maxHealth;
     else if (_health < 0)
         _health = 0;
+    _healthBar.setHealth(_health);
 }
 
 void fg::Entity::setMaxHealth(int maxHealth)
 {
     _maxHealth = maxHealth;
+    _healthBar.setMaxHealth(_maxHealth);
     setHealth(_health);
+    
 }
 
 void fg::Entity::setInitiative(int initiative)
