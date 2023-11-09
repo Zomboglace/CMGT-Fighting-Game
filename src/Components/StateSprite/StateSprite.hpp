@@ -12,18 +12,10 @@
 #include <string>
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include "Origin.hpp"
 
 namespace fg
 {
-    enum class Origin
-    {
-        CENTER,
-        TOP_LEFT,
-        TOP_RIGHT,
-        BOTTOM_LEFT,
-        BOTTOM_RIGHT
-    };
-
     class StateSprite
     {
         public:
