@@ -136,3 +136,8 @@ float fg::FillShape::getTargetPercentageFilled()
 {
     return _targetPercentageFilled;
 }
+
+sf::RectangleShape &fg::FillShape::getShape()
+{
+    return _background;
+}

@@ -43,6 +43,8 @@ namespace fg
             float getPercentageFilled();
             float getTargetPercentageFilled();
 
+            sf::RectangleShape &getShape();
+
         private:
             sf::RectangleShape _shape;
             sf::RectangleShape _background;
